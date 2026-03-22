@@ -214,6 +214,34 @@ h1{text-align:center;font-weight:900;font-size:1.6em;margin:0 0 4px;background:l
 .export-row{display:flex;gap:10px;margin-top:12px}
 .export-btn{flex:1;padding:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85em;transition:0.2s}
 .export-btn:hover{background:var(--surface-hover);border-color:var(--accent)}
+.essay-btn{background:linear-gradient(135deg,#a78bfa,#6366f1);box-shadow:0 4px 20px rgba(167,139,250,0.3)}
+.essay-btn:hover{background:linear-gradient(135deg,#8b5cf6,#4f46e5);transform:translateY(-2px)}
+.essay-section-label{text-align:center;font-size:0.78em;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin:18px 0 8px}
+.essay-prompt-card{background:var(--surface);border-left:4px solid #a78bfa;border-radius:0 12px 12px 0;padding:22px 20px;margin-bottom:18px;font-size:1.05em;line-height:1.7;font-weight:500}
+.essay-instruction{text-align:center;color:var(--text-muted);font-size:0.88em;font-weight:600;margin-bottom:16px;padding:12px;background:rgba(167,139,250,0.06);border:1px dashed rgba(167,139,250,0.3);border-radius:10px}
+.essay-reveal-btn{width:100%;padding:16px;background:linear-gradient(135deg,#a78bfa,#6366f1);color:white;border:none;border-radius:10px;font-size:1.1em;font-weight:700;cursor:pointer;transition:0.2s;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(167,139,250,0.3)}
+.essay-reveal-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.essay-model-section{display:none;margin-top:18px}
+.essay-model-section.show{display:block}
+.essay-model-label{font-weight:800;font-size:0.82em;text-transform:uppercase;letter-spacing:1px;color:#a78bfa;margin-bottom:10px}
+.essay-model{background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.2);border-radius:12px;padding:18px;line-height:1.75;font-size:0.93em;margin-bottom:18px;color:#e2e8f0}
+.essay-kp-label{font-weight:800;font-size:0.82em;text-transform:uppercase;letter-spacing:1px;color:var(--success);margin-bottom:10px}
+.essay-kp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.essay-kp-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:0.15s;font-size:0.9em;line-height:1.5;user-select:none}
+.essay-kp-item:hover{background:var(--surface-hover);border-color:var(--accent)}
+.essay-kp-item.checked{border-color:var(--success);background:rgba(16,185,129,0.08)}
+.essay-kp-check{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:0.15s;font-size:0.75em}
+.essay-kp-item.checked .essay-kp-check{border-color:var(--success);background:var(--success);color:#0f1729}
+.essay-grade-btn{width:100%;padding:14px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer;transition:0.2s;font-family:'DM Sans',sans-serif}
+.essay-grade-btn:hover{background:var(--accent-hover)}
+.essay-score-box{text-align:center;padding:18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px}
+.essay-score-val{font-family:'JetBrains Mono',monospace;font-size:2.4em;font-weight:900;line-height:1}
+.essay-score-val.great{color:var(--success)}.essay-score-val.ok{color:var(--warning)}.essay-score-val.bad{color:var(--danger)}
+.essay-score-sub{font-size:0.85em;color:var(--text-muted);font-weight:600;margin-top:6px}
+.essay-suggest{text-align:center;font-size:0.85em;color:var(--text-muted);margin-bottom:8px;font-weight:600}
+.essay-next-btn{width:100%;padding:13px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.2s;margin-top:10px}
+.essay-next-btn:hover{background:var(--surface-hover);border-color:var(--accent)}
+#essayArea{display:none}
 @media(max-width:600px){.container{padding:18px}h1{font-size:1.3em}.countdown-days{font-size:2.4em}.stat-row,.btn-row,.btn-row3,.results-breakdown,.streak-row{grid-template-columns:1fr}.classify-item{flex-direction:column;align-items:flex-start;gap:8px}.classify-item .ci-text{min-width:unset}}
 </style>
 </head>
@@ -234,6 +262,10 @@ h1{text-align:center;font-weight:900;font-size:1.6em;margin:0 0 4px;background:l
 <button class="start-btn" onclick="startSession('all')">🚀 Start Mixed Session (10 Questions)</button>
 <div class="btn-row3"><button class="focus-btn" onclick="startSession('strategy')">Strategy</button><button class="focus-btn" onclick="startSession('structure')">Structure</button><button class="focus-btn" onclick="startSession('control')">Control</button></div>
 <div class="btn-row"><button class="focus-btn" onclick="startSession('change')">Change</button><button class="focus-btn" onclick="startSession('motivation')">Motivation</button></div>
+<div class="essay-section-label">Written Recall — Practice Writing Answers</div>
+<button class="start-btn essay-btn" onclick="startEssay('random')">✍ Written Recall Mode (Random Topic)</button>
+<div class="btn-row3"><button class="focus-btn" onclick="startEssay('strategy')">Essay: Strategy</button><button class="focus-btn" onclick="startEssay('structure')">Essay: Structure</button><button class="focus-btn" onclick="startEssay('control')">Essay: Control</button></div>
+<div class="btn-row"><button class="focus-btn" onclick="startEssay('change')">Essay: Change</button><button class="focus-btn" onclick="startEssay('motivation')">Essay: Motivation</button></div>
 <button class="device-btn" onclick="toggleDevicePanel()"><span class="device-icon">🎮</span> Controller / Keybinds<span class="device-active-name" id="activeDeviceName">Keyboard</span></button>
 <div class="device-panel" id="devicePanel"><div class="device-panel-title">Anki Rating Devices</div><div class="device-list" id="deviceList"></div><button class="add-device-btn" onclick="openDeviceEditor(null)">+ Add Device</button><div class="device-editor" id="deviceEditor"><div class="de-title" id="deTitle">New Device</div><div class="de-name-row"><input class="de-name-input" id="deNameInput" placeholder="Device name" maxlength="30"></div><div class="de-key-grid"><div class="de-key-item"><div class="de-key-label">Again</div><div class="de-key-capture" id="deKey_again" onclick="startCapture('again')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Hard</div><div class="de-key-capture" id="deKey_hard" onclick="startCapture('hard')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Good</div><div class="de-key-capture" id="deKey_good" onclick="startCapture('good')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Easy</div><div class="de-key-capture" id="deKey_easy" onclick="startCapture('easy')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Submit</div><div class="de-key-capture" id="deKey_submit" onclick="startCapture('submit')">click to bind</div></div></div><div class="de-actions"><button class="de-cancel-btn" onclick="closeDeviceEditor()">Cancel</button><button class="de-save-btn" onclick="saveDevice()">Save Device</button></div></div></div>
 <div class="export-row"><button class="export-btn" onclick="exportProgress()">Export Progress</button><button class="export-btn" onclick="document.getElementById('importFile').click()">Import Progress</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importProgress(event)"></div>
@@ -248,6 +280,29 @@ h1{text-align:center;font-weight:900;font-size:1.6em;margin:0 0 4px;background:l
 <div class="hint-box" id="hintBox"></div><div class="wt-panel" id="wtPanel"></div><div class="feedback-box" id="feedbackBox"></div>
 <div class="anki-bar" id="ankiBar" style="display:none"><div class="anki-btn-wrap"><div class="anki-interval" id="ai_again">&lt;1m</div><button class="anki-btn again" onclick="rateCard('again')">Again</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_hard">1d</div><button class="anki-btn hard" onclick="rateCard('hard')">Hard</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_good">1d</div><button class="anki-btn good" onclick="rateCard('good')">Good</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_easy">3d</div><button class="anki-btn easy" onclick="rateCard('easy')">Easy</button></div></div>
 <div class="anki-key-hint" id="ankiKeyHint" style="display:none"></div>
+</div>
+<div id="essayArea">
+<button class="back-btn" onclick="backToDash()">← Dashboard</button>
+<div class="pomo-bar"><div class="pomo-time work" id="pomoTimeEssay">25:00</div><div class="pomo-label">Pomodoro<span class="pomo-phase" id="pomoPhaseEssay">Ready to focus</span></div><span class="pomo-rounds" id="pomoRoundsEssay">0/4</span><span class="pomo-rounds" id="pomoLifeEssay" style="color:var(--warning)"></span><button class="pomo-btn" id="pomoBtnEssay" onclick="togglePomo()">Start</button><button class="pomo-btn" onclick="resetPomo()">Reset</button></div>
+<div class="q-header"><span class="q-progress" id="essayTopicLabel">Strategy</span><span class="q-chapter" id="essayTopicBadge" style="background:#a78bfa">Written Recall</span></div>
+<div class="essay-prompt-card" id="essayPrompt"></div>
+<div class="essay-instruction">✍ Write your answer on paper. When you're done, reveal the model answer below.</div>
+<button class="essay-reveal-btn" id="essayRevealBtn" onclick="revealEssayAnswer()">I've Written My Answer — Reveal</button>
+<div class="essay-model-section" id="essayModelSection">
+<div class="essay-model-label">Model Answer</div>
+<div class="essay-model" id="essayModelText"></div>
+<div class="essay-kp-label">Key Points — Check each one you included:</div>
+<div class="essay-kp-list" id="essayKpList"></div>
+<button class="essay-grade-btn" id="essayGradeBtn" onclick="gradeEssay()">Grade My Answer</button>
+<div class="essay-score-box" id="essayScoreBox" style="display:none">
+<div class="essay-score-val" id="essayScoreVal">0%</div>
+<div class="essay-score-sub" id="essayScoreSub">0/0 key points covered</div>
+</div>
+<div class="essay-suggest" id="essaySuggest" style="display:none">Rate how well you recalled this:</div>
+<div class="anki-bar" id="essayAnkiBar" style="display:none"><div class="anki-btn-wrap"><div class="anki-interval" id="eai_again">&lt;1m</div><button class="anki-btn again" onclick="essayRateCard('again')">Again</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="eai_hard">1d</div><button class="anki-btn hard" onclick="essayRateCard('hard')">Hard</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="eai_good">1d</div><button class="anki-btn good" onclick="essayRateCard('good')">Good</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="eai_easy">3d</div><button class="anki-btn easy" onclick="essayRateCard('easy')">Easy</button></div></div>
+<button class="essay-next-btn" onclick="startEssay(essayCurrentTopic||'random')">Next Prompt →</button>
+<button class="essay-next-btn" onclick="backToDash()">← Back to Dashboard</button>
+</div>
 </div>
 <div id="resultsScreen" style="display:none"><div class="results-card"><h1>Session Complete!</h1><div class="results-score" id="resultsScore">0%</div><p style="color:var(--text-muted);margin-bottom:16px" id="resultsMsg"></p><div class="results-breakdown" id="resultsBreakdown"></div><button class="start-btn" onclick="backToDash()">← Back to Dashboard</button></div></div>
 </div>
@@ -295,6 +350,54 @@ expectancyTheory:`<div class="hint-title">💡 Expectancy = E × I × V</div><di
 maslowSort:`<div class="hint-title">💡 Maslow (bottom→top)</div><div class="hint-step"><span class="hint-num">1</span><span><span class="hint-key">Physiological</span> — food, water, shelter</span></div><div class="hint-step"><span class="hint-num">2</span><span><span class="hint-key">Safety</span> — security, stability, job security</span></div><div class="hint-step"><span class="hint-num">3</span><span><span class="hint-key">Belongingness</span> — friendship, team, connection</span></div><div class="hint-step"><span class="hint-num">4</span><span><span class="hint-key">Esteem</span> — respect, recognition, achievement</span></div><div class="hint-step"><span class="hint-num">5</span><span><span class="hint-key">Self-actualization</span> — full potential, creativity, growth</span></div>`,
 };
 const HINT_MAP={gen_swot:'swotSort',gen_porters:'portersIdentify',gen_bizStrat:'businessStrategy',gen_corpStrat:'corporateStrategy',gen_ctrlSort:'controlSort',controlSort:'controlSort',gen_orgStruct:'orgStructures',gen_central:'centralization',gen_chgProc:'changeProcess',gen_tdbu:'topDownBottomUp',gen_motivSort:'motivationSort',gen_equity:'equityTheory',gen_expect:'expectancyTheory',gen_maslow:'maslowSort'};
+
+const ESSAY_PROMPTS={
+strategy:[
+{id:'essay_strat_swot_porters',ch:'strategy',prompt:'Explain how a manager would use SWOT analysis and Porter\'s Five Forces together to evaluate a company\'s competitive position and develop a strategy. Use a specific example to illustrate.',
+model:'A manager starts with a SWOT analysis to map internal strengths and weaknesses (things the company controls—talent, brand, technology, resource gaps) against external opportunities and threats (market trends, regulations, competitor moves). Then they apply Porter\'s Five Forces to analyze industry-level competition: rivalry among existing competitors, threat of new entrants, threat of substitute products, bargaining power of buyers, and bargaining power of suppliers. By combining both frameworks, the manager can see which strengths align with opportunities and which weaknesses are exposed by competitive forces. For example, a tech company with strong R&D (strength) in a market with few substitutes (favorable force) and growing demand (opportunity) might pursue a differentiation strategy—investing in unique features competitors can\'t replicate. Meanwhile, high supplier power (threat/force) might push them to vertically integrate backward to control component costs.',
+keyPoints:['SWOT: Strengths & Weaknesses are INTERNAL; Opportunities & Threats are EXTERNAL','Porter\'s 5 Forces: Rivalry, New Entrants, Substitutes, Buyer Power, Supplier Power','SWOT assesses the company; Porter\'s assesses the industry','Strengths should be matched to opportunities; weaknesses guarded against threats','The combined analysis informs which business-level strategy to pursue','Concrete example connecting both frameworks to a strategic decision']},
+{id:'essay_strat_business',ch:'strategy',prompt:'Describe the four business-level strategies. For each, explain who the company targets, how it competes, and give a real-world example.',
+model:'Business-level strategy answers HOW a company competes. It has two dimensions: scope (broad vs. narrow market) and advantage (low cost vs. differentiation). Low-cost leadership targets the broad market by being the cheapest—Walmart uses massive economies of scale to undercut competitors. Differentiation targets the broad market by offering unique, premium products—Apple competes on innovation and design, not price. Focused low-cost targets a narrow niche with the lowest price—Spirit Airlines serves budget travelers on specific routes with bare-minimum service. Focused differentiation targets a narrow niche with unique offerings—Rolex serves luxury watch collectors with craftsmanship competitors can\'t match. The key is that "focused" strategies serve a specific segment, while broad strategies serve the whole market.',
+keyPoints:['Two dimensions: scope (broad vs. narrow) and advantage (low cost vs. unique)','Low-cost leadership: broad market + lowest cost (e.g., Walmart)','Differentiation: broad market + unique product (e.g., Apple)','Focused low-cost: narrow niche + lowest cost (e.g., Spirit Airlines)','Focused differentiation: narrow niche + unique product (e.g., Rolex)','Focused = specific segment; broad = entire market']},
+{id:'essay_strat_corporate',ch:'strategy',prompt:'Compare and contrast the four corporate-level strategies. When would a company choose vertical integration over diversification?',
+model:'Corporate-level strategy answers WHERE a company competes. Concentration means staying in one industry and growing within it—a law firm reinvesting to expand its legal practice. Vertical integration means moving along the supply chain: backward integration acquires suppliers (a coffee roaster buying a bean farm to control quality/costs), while forward integration acquires distribution channels (a brewery opening its own bars). Related diversification enters a new industry that shares resources, technology, or customers with the existing business—a smartphone maker entering smartwatches using its existing tech. Unrelated diversification enters a completely disconnected industry—a steel company buying a fast-food chain—which is the riskiest because there are no shared competencies. A company chooses vertical integration when it wants to control its supply chain, reduce costs, or ensure quality. It chooses diversification when growth in the current chain is limited and it needs new revenue sources.',
+keyPoints:['Corporate-level = WHERE to compete (which industries)','Concentration: stay and grow in one industry','Vertical integration: backward (toward suppliers) vs. forward (toward customers)','Related diversification: new industry sharing resources/tech with existing business','Unrelated diversification: completely unconnected industry (highest risk)','Vertical integration chosen for supply chain control; diversification for new growth']}
+],
+structure:[
+{id:'essay_struct_types',ch:'structure',prompt:'Compare functional, divisional, and matrix organizational structures. What are the advantages and disadvantages of each, and when would an organization use each one?',
+model:'A functional structure groups employees by their specialty—all marketers in Marketing, all engineers in Engineering, etc. This is efficient because specialists share knowledge and there\'s no duplication, but it creates silos where departments don\'t communicate well, and it\'s slow to respond to market changes. A divisional structure groups by product line, region, or customer type—each division (e.g., "North America" or "Consumer Products") has its own marketing, HR, and operations teams. This makes divisions responsive and accountable but duplicates resources across divisions. A matrix structure combines both: employees report to two bosses—a functional manager (e.g., VP of Engineering) AND a project or product manager. This is highly flexible and encourages cross-functional collaboration, but dual authority creates confusion, conflict, and slower decision-making. Companies use functional when efficiency matters and the product line is simple, divisional when they operate across multiple markets or product lines, and matrix when projects require cross-functional expertise and flexibility.',
+keyPoints:['Functional: grouped by specialty (Marketing, Finance, HR). Efficient but creates silos','Divisional: grouped by product/region/customer. Responsive but duplicates resources','Matrix: two bosses (functional + project). Flexible but creates confusion and conflict','Functional = simple product lines needing efficiency','Divisional = multiple markets or product lines needing responsiveness','Matrix = complex projects needing cross-functional collaboration']},
+{id:'essay_struct_central',ch:'structure',prompt:'Explain the difference between centralized and decentralized authority. What are the advantages of each, and provide examples of companies that use each approach?',
+model:'Centralized authority means decision-making power is concentrated at the top of the organization. Senior leaders make key decisions, and lower-level managers implement them. This ensures consistency and uniformity—McDonald\'s uses centralization so every franchise follows identical recipes, procedures, and layouts worldwide. The advantage is standardization and clear control, but the disadvantage is slow response to local conditions and less employee empowerment. Decentralized authority pushes decision-making down to lower-level managers and employees. Google famously decentralizes, letting engineering teams choose their own tools, set schedules, and decide features. The advantage is faster local response, innovation, and employee empowerment, but the disadvantage is potential inconsistency across the organization. Most companies fall somewhere on the spectrum—they centralize strategic decisions (brand, pricing) while decentralizing operational ones (hiring, local marketing).',
+keyPoints:['Centralized: decisions made at the TOP by senior leadership','Decentralized: decisions pushed DOWN to lower-level managers/employees','Centralized advantage: consistency, standardization, clear control (e.g., McDonald\'s)','Centralized disadvantage: slow, less empowerment','Decentralized advantage: fast response, innovation, empowerment (e.g., Google)','Decentralized disadvantage: potential inconsistency across the organization']}
+],
+control:[
+{id:'essay_ctrl_types',ch:'control',prompt:'Explain the three types of organizational control (output, behavioral, and clan). For each, describe what it measures, give examples, and explain when ratios are the best option for control.',
+model:'Output control measures RESULTS—managers set quantifiable targets and evaluate whether they\'re met. Examples include sales quotas, ROI targets, operating budgets, profit margins, and market share goals. Ratios (like ROI, profit margin, or cost-per-unit) are generally the best option for output control because they\'re objective, quantifiable, comparable across divisions of different sizes, and remove subjectivity. Behavioral control manages the PROCESS—how work gets done rather than just results. Examples include direct supervision (managers observing and correcting), standard operating procedures (SOPs like checklists and scripts), and management by objectives (MBO, where manager and employee jointly set goals). Clan control uses CULTURE and shared values to guide behavior. Examples include hiring for cultural fit, immersive onboarding programs, mentoring, team rituals, and reinforcing "how we do things here." Clan control works best when tasks are ambiguous and hard to measure, while output control works best when results are clearly quantifiable.',
+keyPoints:['Output control: measures RESULTS (targets, quotas, budgets, ROI)','Ratios are best for output control—objective, comparable, quantifiable','Behavioral control: manages the PROCESS (supervision, SOPs, MBO)','Clan control: uses CULTURE and shared values (hiring for fit, onboarding, mentoring)','Output = when results are quantifiable; Clan = when tasks are ambiguous','MBO (management by objectives) is behavioral, not output']},
+{id:'essay_ctrl_design',ch:'control',prompt:'A company is struggling with quality issues and inconsistent employee performance. Design a control system using all three types of control (output, behavioral, clan) to address these problems.',
+model:'To address quality and inconsistency, a manager should layer all three control types. For output control, set measurable quality targets: defect rate below 2%, customer satisfaction above 90%, and track these with ratios so performance is comparable across teams and shifts—ratios are best because they\'re objective and eliminate size differences between groups. For behavioral control, implement SOPs: create detailed quality checklists every worker must follow before products ship, require supervisors to conduct spot inspections (direct supervision), and use MBO where each employee and their manager agree on specific quality goals reviewed quarterly. For clan control, build a quality-first culture: hire people who value craftsmanship, run onboarding that emphasizes "we take pride in quality here," celebrate teams with zero defects, and pair new employees with experienced mentors who model quality standards. The three layers reinforce each other—output tracks whether quality improves, behavioral ensures the right processes are followed, and clan makes quality a shared value rather than just a rule.',
+keyPoints:['Output: measurable quality targets (defect rates, satisfaction scores) tracked as ratios','Behavioral: SOPs/checklists, direct supervision/inspections, MBO with quality goals','Clan: hire for quality values, cultural onboarding, celebrate quality wins, mentoring','Ratios are best for output control—objective and comparable across groups','Three layers reinforce each other for comprehensive control','Output = what to achieve; Behavioral = how to do it; Clan = why it matters']}
+],
+change:[
+{id:'essay_chg_process',ch:'change',prompt:'Describe the four primary steps of the organizational change process. For each step, explain what is involved and illustrate with a scenario of a company implementing a major change.',
+model:'The change process has four steps. Step 1: Assess the need for change—managers recognize something isn\'t working by monitoring performance, customer feedback, or competitive threats. For example, a retail company notices online sales declining 20% while competitors grow. Step 2: Decide what to change—leadership identifies the specific targets for change, whether that\'s technology, structure, strategy, or people. The retail company determines its outdated e-commerce platform and siloed marketing team are the bottlenecks. Step 3: Implement the change—this follows Lewin\'s model of unfreeze (break old habits and create urgency), change (introduce new systems and behaviors), and refreeze (solidify new practices as the norm). The company launches a new e-commerce platform, reorganizes marketing into a cross-functional digital team, and trains everyone on new workflows. Step 4: Evaluate the results—compare outcomes against benchmarks to determine if the change worked. Six months later, leadership measures online sales growth, customer satisfaction, and team productivity against pre-change baselines. If targets aren\'t met, the process cycles back.',
+keyPoints:['Step 1: Assess the need—recognize the problem (declining performance, external threats)','Step 2: Decide what to change—identify specific targets (tech, structure, strategy, people)','Step 3: Implement—unfreeze old habits, make the change, refreeze new practices (Lewin\'s model)','Step 4: Evaluate—measure results against benchmarks, determine if change worked','The process is cyclical—if evaluation shows failure, reassess','Concrete scenario connecting all four steps']},
+{id:'essay_chg_tdbu',ch:'change',prompt:'Compare and contrast top-down and bottom-up approaches to organizational change. When is each approach most appropriate, and what are the risks of each?',
+model:'Top-down change is initiated and driven by senior leadership. The CEO or executive team decides what needs to change, designs the plan, and communicates it downward for implementation. This approach is fast and provides clear direction—useful for urgent strategic shifts like restructuring, cost-cutting mandates, or responding to a crisis. However, the risk is resistance: employees who weren\'t consulted may feel disempowered and push back, leading to poor adoption. Bottom-up change is initiated by frontline employees who identify problems and propose solutions that flow upward to management. This approach generates more buy-in because employees feel ownership over the change—a factory team noticing inefficiencies and proposing new workflows will champion those changes. However, it\'s slower and may lack the authority or resources to implement large-scale transformation. The best approach depends on urgency and scope: top-down for urgent, organization-wide changes where speed matters; bottom-up for operational improvements where employee expertise and buy-in are critical. Many successful changes combine both—leadership sets the vision (top-down) while teams design the implementation details (bottom-up).',
+keyPoints:['Top-down: initiated by senior leadership, flows downward','Top-down advantage: fast, clear direction, good for urgent/strategic changes','Top-down risk: employee resistance due to lack of involvement','Bottom-up: initiated by frontline employees, flows upward','Bottom-up advantage: more buy-in and ownership, leverages employee expertise','Bottom-up risk: slower, may lack authority for large-scale change','Best practice: combine both—leadership sets vision, teams design implementation']}
+],
+motivation:[
+{id:'essay_motiv_types',ch:'motivation',prompt:'Explain the three types of motivation (extrinsic, intrinsic, and prosocial). Give workplace examples of each and discuss how a manager can use all three to motivate employees.',
+model:'Extrinsic motivation comes from EXTERNAL rewards or punishments—things outside the work itself. Examples include bonuses, salary raises, promotions, grades, avoiding write-ups, or earning commissions. A sales rep pushing hard to hit quota because the bonus covers their car payment is extrinsically motivated. Intrinsic motivation comes from the WORK ITSELF—internal satisfaction, curiosity, enjoyment, or personal growth. A developer staying late debugging because solving puzzles is deeply satisfying, or a chef experimenting with recipes because cooking is creatively fulfilling, is intrinsically motivated. Prosocial motivation comes from the desire to HELP OTHERS and make a positive impact. A teacher staying after school unpaid to tutor struggling students, or a firefighter who loves the job because they save lives, is prosocially motivated. Effective managers use all three: provide competitive pay and clear promotion paths (extrinsic), design jobs that are challenging and allow autonomy (intrinsic), and connect employees\' work to its impact on customers and communities (prosocial). Relying on only one type leaves motivation incomplete.',
+keyPoints:['Extrinsic: EXTERNAL rewards/punishments (bonuses, promotions, avoiding penalties)','Intrinsic: satisfaction from the WORK ITSELF (enjoyment, curiosity, personal growth)','Prosocial: desire to HELP OTHERS and create positive impact','Managers should use all three types together for maximum motivation','Extrinsic alone leads to "what\'s in it for me" mentality','Connecting work to impact on others activates prosocial motivation']},
+{id:'essay_motiv_equity_expect',ch:'motivation',prompt:'Explain Equity Theory and Expectancy Theory. How does each theory explain why an employee might be unmotivated, and what can a manager do to fix it?',
+model:'Equity Theory says employees compare their input-to-outcome ratio against a referent (coworker doing similar work). Inputs include effort, hours, skill, and experience; outcomes include pay, recognition, and benefits. If ratios are equal, the employee perceives equity (fairness) and stays motivated. If their ratio is worse (working more hours but earning less than a peer), they perceive underpayment inequity—they may reduce effort, demand a raise, or quit. If their ratio is better, they perceive overpayment inequity and may feel guilt, working harder to justify it. Managers fix inequity by ensuring transparent, fair compensation and workload distribution. Expectancy Theory says motivation = Expectancy × Instrumentality × Valence. Expectancy (E): "Can I actually perform this task?" Instrumentality (I): "If I perform well, will I actually get the reward?" Valence (V): "Do I even want that reward?" If ANY factor is zero, motivation is zero. An employee might be unmotivated because they lack confidence (low E), because the company promotes by seniority not performance (low I), or because the reward offered doesn\'t matter to them (low V). Managers fix this by providing training and support (raise E), creating clear performance-reward links (raise I), and offering rewards employees actually value (raise V).',
+keyPoints:['Equity: compare MY inputs/outcomes ratio vs. THEIR inputs/outcomes ratio','Underpayment inequity → reduce effort, ask for raise, or quit','Overpayment inequity → guilt, may work harder','Expectancy Theory: M = E × I × V; if ANY = 0, motivation = 0','E = Can I perform? I = Will performance lead to reward? V = Do I want the reward?','Manager fixes: training (E), clear reward links (I), valued rewards (V)']},
+{id:'essay_motiv_maslow',ch:'motivation',prompt:'Explain Maslow\'s Hierarchy of Needs and how a manager can apply it to motivate employees at different levels of the hierarchy.',
+model:'Maslow\'s Hierarchy arranges human needs in five levels, from basic survival to full potential. Level 1—Physiological: basic needs like food, water, shelter, and comfortable working conditions. Managers address this with fair wages that cover living expenses, clean facilities, and meal programs. Level 2—Safety: security and stability, including job security, health insurance, retirement plans, and safe working conditions. Managers provide stable employment, benefits, and workplace safety protocols. Level 3—Belongingness: social connection, friendship, and feeling part of a team. Managers foster this through team-building activities, inclusive culture, mentorship programs, and social events. Level 4—Esteem: recognition, respect, achievement, and status. Managers provide public recognition (employee of the month), meaningful titles, opportunities to lead projects, and constructive feedback. Level 5—Self-actualization: reaching full potential, creativity, and personal growth. Managers support this with challenging assignments, autonomy, innovation time (like Google\'s 20% time), and career development opportunities. The key insight is that lower needs must be substantially met before higher needs become motivating—an employee worried about layoffs (safety) won\'t be motivated by a creativity workshop (self-actualization).',
+keyPoints:['5 levels: Physiological → Safety → Belongingness → Esteem → Self-actualization','Physiological: food, shelter, fair wages, comfortable conditions','Safety: job security, health insurance, retirement, safe workplace','Belongingness: social connection, teamwork, inclusion, mentoring','Esteem: recognition, respect, achievement, meaningful titles','Self-actualization: full potential, creativity, autonomy, growth','Lower needs must be met before higher needs motivate']}
+]};
 
 function toggleHint(){const box=document.getElementById('hintBox'),btn=document.getElementById('hintBtn');if(box.classList.contains('show')){box.classList.remove('show');btn.classList.remove('open');}else{let h=currentHint||'';if(currentWalkthrough.length)h+=`<button class="wt-trigger" onclick="openWalkthrough()">🤝 Walk me through the reasoning</button>`;box.innerHTML=h;box.classList.add('show');btn.classList.add('open');}}
 function openWalkthrough(){wtStepIdx=0;const p=document.getElementById('wtPanel');let h=`<div class="wt-title">🤝 Let's reason through this</div>`;currentWalkthrough.forEach((s,i)=>{h+=`<div class="wt-step" id="wtStep${i}"><div class="wt-step-label">${s.label||'Step '+(i+1)}</div><div class="wt-step-text">${s.text}</div>${s.math?'<div class="wt-math">'+s.math+'</div>':''}${s.result?'<div class="wt-math"><span class="wt-result">'+s.result+'</span></div>':''}${s.note?'<div class="wt-note">'+s.note+'</div>':''}</div>`;});h+=`<button class="wt-next-btn" id="wtNextBtn" onclick="nextWtStep()">Show first step →</button><div class="wt-done" id="wtDone" style="display:none">✓ Now try the answer above!</div>`;p.innerHTML=h;p.classList.add('show');p.scrollIntoView({behavior:'smooth',block:'nearest'});}
@@ -353,7 +456,7 @@ function svS(){localStorage.setItem('mgmtS2',JSON.stringify({questions:session.q
 function clrS(){localStorage.removeItem('mgmtS2');}
 function getSS(){try{return JSON.parse(localStorage.getItem('mgmtS2'));}catch(e){return null;}}
 function resumeSession(){const sv=getSS();if(!sv)return;session={...sv,answered:false,currentGenerator:'unknown'};if(sv.answered){session.idx++;if(session.idx>=session.questions.length){document.getElementById('dashboard').style.display='none';document.getElementById('gameArea').style.display='none';showRes();return;}}document.getElementById('dashboard').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('gameArea').style.display='block';renderQ();}
-function backToDash(){document.getElementById('dashboard').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='none';updateDashboard();}
+function backToDash(){document.getElementById('dashboard').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('essayArea').style.display='none';essayCurrentTopic=null;essayCurrentPrompt=null;updateDashboard();}
 function renderQ(){session.answered=false;document.getElementById('submitBtn').style.display='';document.getElementById('submitBtn').disabled=false;document.getElementById('nextBtn').style.display='none';document.getElementById('feedbackBox').className='feedback-box';document.getElementById('ankiBar').style.display='none';document.getElementById('ankiKeyHint').style.display='none';document.getElementById('qScenario').style.display='none';document.getElementById('hintBox').className='hint-box';document.getElementById('hintBtn').classList.remove('open');document.getElementById('wtPanel').className='wt-panel';currentWalkthrough=[];wtStepIdx=0;let ch=session.questions[session.idx];document.getElementById('qProgress').textContent=(session.idx+1)+' / '+session.questions.length;document.getElementById('qChapter').textContent=CHAPTERS[ch].name;document.getElementById('qChapter').style.background=CHAPTERS[ch].color;document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;document.getElementById('sRemain').textContent='Remaining: '+(session.questions.length-session.idx);if(ch==='strategy')genStrat();else if(ch==='structure')genStruct();else if(ch==='control')genCtrl();else if(ch==='change')genChg();else if(ch==='motivation')genMotiv();currentHint=HINTS[HINT_MAP[session.currentGenerator]||session.currentGenerator]||'';}
 function submitAnswer(){if(session.answered)return;session.answered=true;if(document.activeElement)document.activeElement.blur();document.getElementById('submitBtn').style.display='none';document.getElementById('nextBtn').style.display='none';updateAnkiIV();document.getElementById('ankiBar').style.display='flex';document.getElementById('ankiKeyHint').style.display='flex';updKH();let r=currentAnswer.check(),ch=session.questions[session.idx];state.stats[ch].total++;state.totalAnswered++;if(r.correct){session.correct++;state.stats[ch].correct++;state.totalCorrect++;showFB('success','✓ Correct!',r.explanation);}else{session.wrong++;showFB('error','✗ '+r.correctText,r.explanation);}saveState();updateStreak();svS();document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;}
 function nextQuestion(){session.idx++;svS();if(session.idx>=session.questions.length)showRes();else renderQ();}
@@ -490,11 +593,104 @@ const sh=shuffle(items);
 currentWalkthrough=sh.map((it,i)=>({label:'Item '+(i+1),text:`"${it.text}"`,math:'Survival? Security? Social? Respect? Full potential?',result:'→ '+it.answer+' (L'+(levels.indexOf(it.answer)+1)+')',note:it.explain}));
 renderClassify(`<strong>Maslow's Hierarchy</strong> — Place each at the correct level`,sh,levels,`Classify each scenario:<br><em>Physiological → Safety → Belongingness → Esteem → Self-actualization</em>`);}
 
+// ═══ WRITTEN RECALL / ESSAY MODE ═══
+let essayCurrentPrompt=null,essayCurrentTopic=null,essayRevealed=false,essayGraded=false;
+function startEssay(topic){
+essayCurrentTopic=topic;
+let pool=[];
+if(topic==='random'){for(let ch in ESSAY_PROMPTS)pool=pool.concat(ESSAY_PROMPTS[ch]);}
+else{pool=ESSAY_PROMPTS[topic]||[];}
+if(!pool.length)return;
+const picks=pool.map(p=>({name:p.id,...p}));
+const chosen=fsrsPick(picks);
+essayCurrentPrompt=chosen;
+session.currentGenerator=chosen.id;
+document.getElementById('dashboard').style.display='none';
+document.getElementById('gameArea').style.display='none';
+document.getElementById('resultsScreen').style.display='none';
+document.getElementById('essayArea').style.display='block';
+renderEssay(chosen);
+}
+function renderEssay(p){
+const ch=CHAPTERS[p.ch];
+document.getElementById('essayTopicLabel').textContent=ch.name;
+document.getElementById('essayTopicBadge').style.background=ch.color;
+document.getElementById('essayPrompt').innerHTML=p.prompt;
+document.getElementById('essayRevealBtn').style.display='';
+document.getElementById('essayModelSection').classList.remove('show');
+document.getElementById('essayScoreBox').style.display='none';
+document.getElementById('essaySuggest').style.display='none';
+document.getElementById('essayAnkiBar').style.display='none';
+document.getElementById('essayGradeBtn').style.display='';
+essayRevealed=false;essayGraded=false;
+}
+function revealEssayAnswer(){
+if(essayRevealed)return;
+essayRevealed=true;
+document.getElementById('essayRevealBtn').style.display='none';
+const p=essayCurrentPrompt;
+document.getElementById('essayModelText').innerHTML=p.model;
+let h='';
+p.keyPoints.forEach((kp,i)=>{
+h+=`<div class="essay-kp-item" id="ekp_${i}" onclick="toggleKP(${i})"><div class="essay-kp-check" id="ekpc_${i}"></div><div>${kp}</div></div>`;
+});
+document.getElementById('essayKpList').innerHTML=h;
+document.getElementById('essayModelSection').classList.add('show');
+document.getElementById('essayModelSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleKP(i){
+const el=document.getElementById('ekp_'+i),ck=document.getElementById('ekpc_'+i);
+if(el.classList.contains('checked')){el.classList.remove('checked');ck.innerHTML='';}
+else{el.classList.add('checked');ck.innerHTML='✓';}
+}
+function gradeEssay(){
+if(essayGraded)return;
+essayGraded=true;
+const p=essayCurrentPrompt,total=p.keyPoints.length;
+let hit=0;
+p.keyPoints.forEach((kp,i)=>{if(document.getElementById('ekp_'+i).classList.contains('checked'))hit++;});
+const pct=Math.round(hit/total*100);
+const el=document.getElementById('essayScoreVal');
+el.textContent=pct+'%';
+el.className='essay-score-val '+(pct>=80?'great':pct>=50?'ok':'bad');
+document.getElementById('essayScoreSub').textContent=hit+'/'+total+' key points covered';
+document.getElementById('essayScoreBox').style.display='';
+document.getElementById('essayGradeBtn').style.display='none';
+// show FSRS bar
+const iv=compIV(p.id);
+document.getElementById('eai_again').textContent=fmtIV(iv.again);
+document.getElementById('eai_hard').textContent=fmtIV(iv.hard);
+document.getElementById('eai_good').textContent=fmtIV(iv.good);
+document.getElementById('eai_easy').textContent=fmtIV(iv.easy);
+let suggest='';
+if(pct<=25)suggest='Suggestion: rate "Again" — you missed most key points';
+else if(pct<=50)suggest='Suggestion: rate "Hard" — you got some but missed important ones';
+else if(pct<=80)suggest='Suggestion: rate "Good" — solid recall with minor gaps';
+else suggest='Suggestion: rate "Easy" — excellent recall!';
+document.getElementById('essaySuggest').textContent=suggest;
+document.getElementById('essaySuggest').style.display='';
+document.getElementById('essayAnkiBar').style.display='flex';
+// update stats
+const ch=essayCurrentPrompt.ch;
+state.stats[ch].total++;state.totalAnswered++;
+if(pct>=50){state.stats[ch].correct++;state.totalCorrect++;}
+saveState();updateStreak();
+document.getElementById('essayScoreBox').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function essayRateCard(rating){
+const k=essayCurrentPrompt.id,c=fsrsCards[k],g={again:1,hard:2,good:3,easy:4}[rating];
+let nS,nD;
+if(!c){nS=fsrsS0(g);nD=fsrsD0(g);}
+else{const e=Math.max(0,(Date.now()-c.lr)/864e5),r=fsrsR(e,c.s);nD=fsrsND(c.d,g);nS=g===1?fsrsFS(c.d,c.s,r):fsrsRS(c.d,c.s,r,g);}
+fsrsCards[k]={s:nS,d:nD,lr:Date.now(),iv:fsrsSch(nS)};saveFsrs();
+backToDash();
+}
+
 // POMODORO
 const PW=25*60,PB=5*60,PL=15*60;let pomoLife=parseInt(localStorage.getItem('mgmtPomoLife')||'0');let pomo={running:false,seconds:PW,phase:'work',round:0,iid:null};
 function savePomo(){localStorage.setItem('mgmtPomo2',JSON.stringify({seconds:pomo.seconds,phase:pomo.phase,round:pomo.round,lastTick:Date.now(),wasRunning:pomo.running}));}
 function loadPomo(){try{const p=JSON.parse(localStorage.getItem('mgmtPomo2'));if(!p)return;pomo.phase=p.phase||'work';pomo.round=p.round||0;if(p.wasRunning&&p.lastTick){const elapsed=Math.floor((Date.now()-p.lastTick)/1000);pomo.seconds=Math.max(0,p.seconds-elapsed);}else{pomo.seconds=p.seconds||PW;}}catch(e){}}
-function syncPomo(){const m=Math.floor(pomo.seconds/60),s=pomo.seconds%60,ts=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'),ps=pomo.phase==='work'?'Focus time':pomo.phase==='break'?'Short break':'Long break',tc=pomo.phase==='work'?'pomo-time work':pomo.seconds===0?'pomo-time done':'pomo-time break-mode',bt=pomo.running?'Pause':pomo.seconds===0?'Next':'Start';['Dash','Game'].forEach(l=>{const t=document.getElementById('pomoTime'+l),p=document.getElementById('pomoPhase'+l),r=document.getElementById('pomoRounds'+l),b=document.getElementById('pomoBtn'+l),lf=document.getElementById('pomoLife'+l);if(t){t.textContent=ts;t.className=tc;}if(p)p.textContent=ps;if(r)r.textContent=pomo.round+'/4';if(b){b.textContent=bt;b.className=pomo.running?'pomo-btn active':'pomo-btn';}if(lf)lf.textContent=pomoLife>0?pomoLife+' total':'';});}
+function syncPomo(){const m=Math.floor(pomo.seconds/60),s=pomo.seconds%60,ts=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'),ps=pomo.phase==='work'?'Focus time':pomo.phase==='break'?'Short break':'Long break',tc=pomo.phase==='work'?'pomo-time work':pomo.seconds===0?'pomo-time done':'pomo-time break-mode',bt=pomo.running?'Pause':pomo.seconds===0?'Next':'Start';['Dash','Game','Essay'].forEach(l=>{const t=document.getElementById('pomoTime'+l),p=document.getElementById('pomoPhase'+l),r=document.getElementById('pomoRounds'+l),b=document.getElementById('pomoBtn'+l),lf=document.getElementById('pomoLife'+l);if(t){t.textContent=ts;t.className=tc;}if(p)p.textContent=ps;if(r)r.textContent=pomo.round+'/4';if(b){b.textContent=bt;b.className=pomo.running?'pomo-btn active':'pomo-btn';}if(lf)lf.textContent=pomoLife>0?pomoLife+' total':'';});}
 function resetPomo(){if(pomo.iid)clearInterval(pomo.iid);pomo.running=false;pomo.seconds=PW;pomo.phase='work';pomo.round=0;savePomo();syncPomo();}
 function togglePomo(){if(pomo.seconds===0){if(pomo.phase==='work'){pomo.round++;pomoLife++;localStorage.setItem('mgmtPomoLife',String(pomoLife));pomo.phase=pomo.round%4===0?'long':'break';pomo.seconds=pomo.phase==='long'?PL:PB;}else{pomo.phase='work';pomo.seconds=PW;}savePomo();syncPomo();return;}if(pomo.running){clearInterval(pomo.iid);pomo.running=false;savePomo();}else{pomo.running=true;pomo.iid=setInterval(()=>{if(pomo.seconds>0){pomo.seconds--;savePomo();syncPomo();if(pomo.seconds===0){clearInterval(pomo.iid);pomo.running=false;savePomo();syncPomo();try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.3;o.start();o.stop(a.currentTime+.15);setTimeout(()=>{const o2=a.createOscillator(),g2=a.createGain();o2.connect(g2);g2.connect(a.destination);o2.frequency.value=1100;g2.gain.value=.3;o2.start();o2.stop(a.currentTime+.2);},200);}catch(e){}}}},1000);}syncPomo();}
 
