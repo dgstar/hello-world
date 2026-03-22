@@ -456,7 +456,7 @@ function svS(){localStorage.setItem('mgmtS2',JSON.stringify({questions:session.q
 function clrS(){localStorage.removeItem('mgmtS2');}
 function getSS(){try{return JSON.parse(localStorage.getItem('mgmtS2'));}catch(e){return null;}}
 function resumeSession(){const sv=getSS();if(!sv)return;session={...sv,answered:false,currentGenerator:'unknown'};if(sv.answered){session.idx++;if(session.idx>=session.questions.length){document.getElementById('dashboard').style.display='none';document.getElementById('gameArea').style.display='none';showRes();return;}}document.getElementById('dashboard').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('gameArea').style.display='block';renderQ();}
-function backToDash(){document.getElementById('dashboard').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('essayArea').style.display='none';updateDashboard();}
+function backToDash(){document.getElementById('dashboard').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('essayArea').style.display='none';essayCurrentTopic=null;essayCurrentPrompt=null;updateDashboard();}
 function renderQ(){session.answered=false;document.getElementById('submitBtn').style.display='';document.getElementById('submitBtn').disabled=false;document.getElementById('nextBtn').style.display='none';document.getElementById('feedbackBox').className='feedback-box';document.getElementById('ankiBar').style.display='none';document.getElementById('ankiKeyHint').style.display='none';document.getElementById('qScenario').style.display='none';document.getElementById('hintBox').className='hint-box';document.getElementById('hintBtn').classList.remove('open');document.getElementById('wtPanel').className='wt-panel';currentWalkthrough=[];wtStepIdx=0;let ch=session.questions[session.idx];document.getElementById('qProgress').textContent=(session.idx+1)+' / '+session.questions.length;document.getElementById('qChapter').textContent=CHAPTERS[ch].name;document.getElementById('qChapter').style.background=CHAPTERS[ch].color;document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;document.getElementById('sRemain').textContent='Remaining: '+(session.questions.length-session.idx);if(ch==='strategy')genStrat();else if(ch==='structure')genStruct();else if(ch==='control')genCtrl();else if(ch==='change')genChg();else if(ch==='motivation')genMotiv();currentHint=HINTS[HINT_MAP[session.currentGenerator]||session.currentGenerator]||'';}
 function submitAnswer(){if(session.answered)return;session.answered=true;if(document.activeElement)document.activeElement.blur();document.getElementById('submitBtn').style.display='none';document.getElementById('nextBtn').style.display='none';updateAnkiIV();document.getElementById('ankiBar').style.display='flex';document.getElementById('ankiKeyHint').style.display='flex';updKH();let r=currentAnswer.check(),ch=session.questions[session.idx];state.stats[ch].total++;state.totalAnswered++;if(r.correct){session.correct++;state.stats[ch].correct++;state.totalCorrect++;showFB('success','✓ Correct!',r.explanation);}else{session.wrong++;showFB('error','✗ '+r.correctText,r.explanation);}saveState();updateStreak();svS();document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;}
 function nextQuestion(){session.idx++;svS();if(session.idx>=session.questions.length)showRes();else renderQ();}
@@ -594,7 +594,7 @@ currentWalkthrough=sh.map((it,i)=>({label:'Item '+(i+1),text:`"${it.text}"`,math
 renderClassify(`<strong>Maslow's Hierarchy</strong> — Place each at the correct level`,sh,levels,`Classify each scenario:<br><em>Physiological → Safety → Belongingness → Esteem → Self-actualization</em>`);}
 
 // ═══ WRITTEN RECALL / ESSAY MODE ═══
-let essayCurrentPrompt=null,essayCurrentTopic=null;
+let essayCurrentPrompt=null,essayCurrentTopic=null,essayRevealed=false,essayGraded=false;
 function startEssay(topic){
 essayCurrentTopic=topic;
 let pool=[];
@@ -622,8 +622,11 @@ document.getElementById('essayScoreBox').style.display='none';
 document.getElementById('essaySuggest').style.display='none';
 document.getElementById('essayAnkiBar').style.display='none';
 document.getElementById('essayGradeBtn').style.display='';
+essayRevealed=false;essayGraded=false;
 }
 function revealEssayAnswer(){
+if(essayRevealed)return;
+essayRevealed=true;
 document.getElementById('essayRevealBtn').style.display='none';
 const p=essayCurrentPrompt;
 document.getElementById('essayModelText').innerHTML=p.model;
@@ -641,6 +644,8 @@ if(el.classList.contains('checked')){el.classList.remove('checked');ck.innerHTML
 else{el.classList.add('checked');ck.innerHTML='✓';}
 }
 function gradeEssay(){
+if(essayGraded)return;
+essayGraded=true;
 const p=essayCurrentPrompt,total=p.keyPoints.length;
 let hit=0;
 p.keyPoints.forEach((kp,i)=>{if(document.getElementById('ekp_'+i).classList.contains('checked'))hit++;});
