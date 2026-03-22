@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tsar Lamour's Management Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0c1222;--primary-light:#1e293b;--accent:#6366f1;--accent-hover:#4f46e5;--bg:#0f1729;--card-bg:#161f33;--surface:#1c2640;--surface-hover:#243052;--text:#e2e8f0;--text-muted:#8892a8;--border:#2a3550;--danger:#f43f5e;--success:#10b981;--warning:#f59e0b;--teach:#a78bfa;--teach-hover:#8b5cf6;--radius:14px;--gold:#fbbf24}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start;background-image:radial-gradient(ellipse at 20% 0%,rgba(99,102,241,0.08) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(168,85,247,0.06) 0%,transparent 50%)}
+.container{background:var(--card-bg);max-width:820px;width:100%;padding:32px;margin-top:1vh;border-radius:var(--radius);border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+h1{text-align:center;font-weight:900;font-size:1.6em;margin:0 0 4px;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:var(--text-muted);font-size:0.88em;margin-bottom:24px;font-weight:500}
+.countdown-card{background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(168,85,247,0.08));border:1px solid rgba(99,102,241,0.3);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px}
+.countdown-card.urgent{background:linear-gradient(135deg,rgba(244,63,94,0.15),rgba(251,146,60,0.1));border-color:rgba(244,63,94,0.4)}
+.countdown-card.warning{background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border-color:rgba(245,158,11,0.3)}
+.countdown-days{font-family:'JetBrains Mono',monospace;font-size:3.2em;font-weight:900;line-height:1}
+.countdown-label{font-size:0.85em;color:var(--text-muted);font-weight:600;margin-top:4px;text-transform:uppercase;letter-spacing:1.5px}
+.countdown-sublabel{font-size:0.78em;color:var(--text-muted);margin-top:6px}
+.countdown-edit{display:inline-block;cursor:pointer;border-bottom:1px dashed var(--text-muted);transition:0.15s}
+.countdown-edit:hover{color:var(--accent);border-color:var(--accent)}
+.date-editor{margin-top:10px;display:none;align-items:center;justify-content:center;gap:8px}
+.date-editor.open{display:flex}
+.date-editor input[type="date"]{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88em;font-weight:600;color-scheme:dark}
+.date-editor button{padding:6px 14px;background:var(--accent);color:white;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.82em}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:1.6em;font-weight:900;color:var(--accent)}
+.stat-label{font-size:0.75em;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.chapter-block{margin-bottom:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;transition:0.2s}
+.chapter-block:hover{border-color:var(--accent);background:var(--surface-hover)}
+.ch-header{display:flex;justify-content:space-between;align-items:center}
+.ch-title{font-weight:700;font-size:0.95em}
+.ch-badge{font-size:0.78em;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,0.12);color:var(--success)}
+.ch-topics{font-size:0.8em;color:var(--text-muted);margin-top:6px}
+.ch-progress{height:4px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.ch-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#a78bfa);border-radius:2px;transition:width 0.3s}
+.start-btn{width:100%;padding:15px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:1.1em;font-weight:700;cursor:pointer;transition:0.2s;box-shadow:0 4px 20px rgba(99,102,241,0.3);margin-top:12px;font-family:'DM Sans',sans-serif}
+.start-btn:hover{background:var(--accent-hover);transform:translateY(-2px)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.btn-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.focus-btn{padding:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.2s;font-size:0.9em}
+.focus-btn:hover{background:var(--surface-hover);border-color:var(--accent)}
+#gameArea{display:none}
+.back-btn{background:transparent;border:none;color:var(--text-muted);font-weight:700;cursor:pointer;padding:0;font-size:0.9em;transition:0.2s;margin-bottom:14px;font-family:'DM Sans',sans-serif}
+.back-btn:hover{color:var(--text)}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.q-progress{font-weight:700;font-size:0.9em}
+.q-chapter{padding:4px 12px;border-radius:20px;font-size:0.78em;font-weight:700;background:var(--accent);color:#fff}
+.q-text{font-size:1.05em;font-weight:500;margin-bottom:18px;line-height:1.65}
+.q-scenario{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:18px;font-size:0.92em;line-height:1.6}
+.q-scenario strong{color:var(--accent)}
+.mc-options{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.mc-opt{display:block;width:100%;text-align:left;padding:13px 16px;border-radius:10px;border:2px solid var(--border);background:var(--surface);cursor:pointer;font-size:0.93em;font-weight:500;transition:0.15s;color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.45}
+.mc-opt:hover:not(.locked){background:var(--surface-hover);border-color:var(--accent)}
+.mc-opt.selected{border-color:var(--accent);background:rgba(99,102,241,0.12)}
+.mc-opt.correct{background:rgba(16,185,129,0.15)!important;border-color:var(--success)!important;color:#6ee7b7!important;font-weight:700}
+.mc-opt.wrong{background:rgba(244,63,94,0.12)!important;border-color:var(--danger)!important;color:#fda4af!important}
+.mc-opt.locked{cursor:default;opacity:0.5}
+.mc-opt.locked.correct,.mc-opt.locked.wrong{opacity:1}
+.form-grid{display:grid;gap:10px;margin-bottom:16px}
+.field-select{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.85em;font-weight:600;min-width:160px;cursor:pointer;transition:0.2s}
+.field-select:focus{outline:none;border-color:var(--accent)}
+.field-select.correct{border-color:var(--success);background:rgba(16,185,129,0.08)}
+.field-select.wrong{border-color:var(--danger);background:rgba(244,63,94,0.06)}
+.classify-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.classify-item .ci-text{flex:1;font-size:0.92em;line-height:1.5;min-width:200px}
+.classify-item.ci-correct{border-color:var(--success)}
+.classify-item.ci-wrong{border-color:var(--danger)}
+.action-bar{display:flex;gap:10px;margin-top:18px;align-items:center}
+.submit-btn{flex-grow:1;padding:14px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:1.05em;font-weight:700;cursor:pointer;transition:0.2s;font-family:'DM Sans',sans-serif}
+.submit-btn:hover:not(:disabled){background:var(--accent-hover)}
+.submit-btn:disabled{background:#475569;cursor:not-allowed}
+.next-btn{padding:14px 24px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.2s}
+.next-btn:hover{background:var(--surface-hover)}
+.feedback-box{margin-top:16px;padding:16px;border-radius:10px;display:none;line-height:1.6;font-size:0.93em}
+.feedback-box.success{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;display:block}
+.feedback-box.error{background:rgba(244,63,94,0.08);border:1px solid rgba(244,63,94,0.25);color:#fda4af;display:block}
+.feedback-box strong{display:block;margin-bottom:4px;font-size:1.05em}
+.hint-btn{padding:10px 16px;background:transparent;border:1.5px solid rgba(251,191,36,0.35);color:var(--warning);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9em;transition:0.15s;white-space:nowrap}
+.hint-btn:hover{background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.5)}
+.hint-btn.open{background:rgba(251,191,36,0.1);border-color:var(--warning)}
+.hint-box{margin-top:12px;padding:16px 18px;border-radius:10px;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);display:none;line-height:1.75;font-size:0.9em;color:#fde68a}
+.hint-box.show{display:block}
+.hint-box .hint-title{font-weight:800;font-size:0.82em;text-transform:uppercase;letter-spacing:1px;color:var(--warning);margin-bottom:8px}
+.hint-box p{margin:6px 0}
+.hint-box .hint-step{display:flex;gap:8px;align-items:flex-start;margin:6px 0}
+.hint-box .hint-num{background:rgba(251,191,36,0.2);color:var(--warning);font-weight:800;font-size:0.82em;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.hint-box .hint-key{color:var(--warning);font-weight:700}
+.wt-trigger{margin-top:12px;padding:10px 16px;background:transparent;border:1.5px dashed rgba(96,165,250,0.4);color:#93c5fd;border-radius:8px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.88em;transition:0.15s;width:100%;text-align:center}
+.wt-trigger:hover{background:rgba(96,165,250,0.08)}
+.wt-panel{margin-top:12px;padding:18px;border-radius:10px;background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.25);display:none;line-height:1.75;font-size:0.9em;color:#bfdbfe}
+.wt-panel.show{display:block}
+.wt-panel .wt-title{font-weight:800;font-size:0.82em;text-transform:uppercase;letter-spacing:1px;color:#60a5fa;margin-bottom:10px}
+.wt-step{padding:10px 12px;border-radius:8px;margin-bottom:8px;background:rgba(96,165,250,0.05);border-left:3px solid rgba(96,165,250,0.3);display:none}
+.wt-step.revealed{display:block;animation:wtIn 0.3s ease}
+@keyframes wtIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.wt-step .wt-step-label{font-weight:800;font-size:0.78em;color:#60a5fa;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.wt-step .wt-step-text{color:#e2e8f0}
+.wt-step .wt-math{font-family:'JetBrains Mono',monospace;color:#93c5fd;font-weight:700;font-size:0.95em;margin-top:4px;padding:6px 10px;background:rgba(96,165,250,0.08);border-radius:6px;display:inline-block}
+.wt-step .wt-result{color:#6ee7b7;font-weight:800}
+.wt-step .wt-note{font-size:0.85em;color:var(--text-muted);margin-top:4px;font-style:italic}
+.wt-next-btn{margin-top:8px;padding:9px 20px;background:#60a5fa;color:#0f172a;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.88em}
+.wt-next-btn:hover{background:#3b82f6}
+.wt-done{text-align:center;padding:10px;color:#6ee7b7;font-weight:700;font-size:0.9em;margin-top:4px}
+.score-bar{display:flex;gap:16px;align-items:center;justify-content:center;padding:10px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;font-size:0.85em;font-weight:600}
+.score-correct{color:var(--success)}.score-wrong{color:var(--danger)}.score-remaining{color:var(--text-muted)}
+.pomo-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;font-size:0.85em}
+.pomo-time{font-family:'JetBrains Mono',monospace;font-size:1.4em;font-weight:900;min-width:70px;text-align:center}
+.pomo-time.work{color:var(--accent)}.pomo-time.break-mode{color:var(--success)}
+.pomo-time.done{color:var(--warning);animation:pt 1s ease infinite}
+@keyframes pt{0%,100%{opacity:1}50%{opacity:0.5}}
+.pomo-label{font-weight:700;font-size:0.82em;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;flex:1}
+.pomo-label .pomo-phase{color:var(--text);font-size:1.1em;display:block;margin-top:1px}
+.pomo-rounds{font-family:'JetBrains Mono',monospace;font-size:0.8em;color:var(--text-muted)}
+.pomo-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--text);font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.82em;transition:0.15s}
+.pomo-btn:hover{background:var(--surface-hover);border-color:var(--accent)}
+.pomo-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+.resume-btn{width:100%;padding:13px;background:var(--surface);color:var(--text);border:1.5px solid var(--accent);border-radius:10px;font-size:1em;font-weight:700;cursor:pointer;transition:0.2s;font-family:'DM Sans',sans-serif;margin-bottom:8px;display:none}
+.resume-btn:hover{background:rgba(99,102,241,0.1)}
+.resume-btn .resume-sub{font-size:0.78em;color:var(--text-muted);font-weight:500;margin-top:2px}
+.anki-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px;padding:12px 8px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.anki-btn-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:68px}
+.anki-interval{font-size:0.72em;color:var(--text-muted);font-weight:700;font-family:'JetBrains Mono',monospace}
+.anki-btn{padding:8px 0;border-radius:20px;border:1.5px solid var(--border);background:var(--card-bg);color:var(--text);font-weight:700;font-size:0.88em;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.15s;width:70px}
+.anki-btn.again{border-color:rgba(244,63,94,0.5);color:#fda4af}
+.anki-btn.hard{border-color:rgba(245,158,11,0.5);color:#fcd34d}
+.anki-btn.good{border-color:rgba(16,185,129,0.5);color:#6ee7b7}
+.anki-btn.easy{border-color:rgba(96,165,250,0.5);color:#93c5fd}
+.anki-btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.anki-key-hint{display:flex;gap:8px;justify-content:center;margin-top:6px;font-size:0.75em;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.anki-key-hint span{background:var(--surface);border:1px solid var(--border);padding:3px 8px;border-radius:6px;font-weight:700}
+.anki-key-hint span em{color:var(--accent);font-style:normal}
+.tsar-credit{position:fixed;top:12px;right:16px;font-size:0.75em;font-weight:700;color:#475569;z-index:200}
+.tsar-credit span{color:var(--accent)}
+.version-label{position:fixed;bottom:12px;left:14px;font-size:0.8em;font-weight:700;color:#334155}
+.results-card{text-align:center;padding:30px}
+.results-score{font-family:'JetBrains Mono',monospace;font-size:3em;font-weight:900;margin:16px 0}
+.results-score.great{color:var(--success)}.results-score.ok{color:var(--warning)}.results-score.bad{color:var(--danger)}
+.results-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;text-align:left}
+.rb-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px}
+.rb-item .rb-ch{font-weight:700;font-size:0.85em;margin-bottom:4px}
+.rb-item .rb-score{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent)}
+.device-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);border-radius:10px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.82em;transition:0.2s;margin-top:12px;width:100%}
+.device-btn:hover{background:var(--surface-hover);border-color:var(--accent);color:var(--text)}
+.device-btn .device-icon{font-size:1.2em}
+.device-btn .device-active-name{color:var(--accent);margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:0.9em}
+.device-panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-top:10px}
+.device-panel.open{display:block}
+.device-panel-title{font-weight:800;font-size:0.92em;margin-bottom:14px}
+.device-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.device-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:0.15s}
+.device-item:hover{background:var(--surface-hover)}
+.device-item.active{border-color:var(--accent);background:rgba(99,102,241,0.06)}
+.di-radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--border);flex-shrink:0}
+.device-item.active .di-radio{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--card-bg)}
+.di-name{font-weight:700;font-size:0.9em;flex:1}
+.di-keys{font-size:0.75em;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.di-actions{display:flex;gap:4px}
+.di-action-btn{padding:4px 10px;background:transparent;border:1px solid var(--border);color:var(--text-muted);border-radius:6px;font-size:0.75em;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.di-action-btn:hover{background:var(--surface-hover);color:var(--text)}
+.di-action-btn.delete:hover{color:var(--danger);border-color:var(--danger)}
+.add-device-btn{width:100%;padding:10px;background:transparent;border:1.5px dashed var(--border);border-radius:8px;color:var(--text-muted);font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85em}
+.add-device-btn:hover{border-color:var(--accent);color:var(--text)}
+.device-editor{display:none;margin-top:14px;padding:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px}
+.device-editor.open{display:block}
+.de-title{font-weight:800;font-size:0.9em;margin-bottom:12px}
+.de-name-row{margin-bottom:12px}
+.de-name-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88em;font-weight:600}
+.de-name-input:focus{outline:none;border-color:var(--accent)}
+.de-key-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.de-key-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.de-key-label{font-size:0.78em;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px}
+.de-key-capture{padding:8px;border:1.5px dashed var(--border);border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.85em;font-weight:700;color:var(--text-muted);min-height:36px;display:flex;align-items:center;justify-content:center}
+.de-key-capture:hover{border-color:var(--accent)}
+.de-key-capture.listening{border-color:var(--warning);color:var(--warning);animation:pt 1s ease infinite}
+.de-key-capture.bound{border-style:solid;border-color:var(--accent);color:var(--accent)}
+.de-actions{display:flex;gap:8px;justify-content:flex-end}
+.de-cancel-btn,.de-save-btn{padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85em;border:none}
+.de-cancel-btn{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.de-save-btn{background:var(--accent);color:white}
+.exam-track{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:18px}
+.exam-track-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.exam-track-title{font-weight:700;font-size:0.9em}
+.exam-add-btn{padding:5px 12px;background:var(--card-bg);border:1px solid var(--border);border-radius:6px;color:var(--text-muted);font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.78em}
+.exam-add-btn:hover{border-color:var(--accent);color:var(--text)}
+.exam-list{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.exam-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:0.82em}
+.ec-name{font-weight:600;color:var(--text-muted)}.ec-score{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:1.1em}
+.ec-score.great{color:var(--success)}.ec-score.ok{color:var(--warning)}.ec-score.bad{color:var(--danger)}
+.ec-note{font-size:0.85em;color:var(--text-muted)}
+.ec-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:0.9em;padding:2px;opacity:0.5}
+.ec-del:hover{opacity:1;color:var(--danger)}
+.exam-avg{font-size:0.85em;font-weight:700;color:var(--text-muted)}
+.exam-trend{color:var(--success);font-family:'JetBrains Mono',monospace}.exam-trend.down{color:var(--danger)}
+.exam-editor{display:none;margin-top:10px;padding:12px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px}
+.exam-editor.open{display:block}
+.exam-editor-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.exam-editor-row input,.exam-editor-row select{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.88em;font-weight:600}
+.exam-editor-row input[type="number"]{width:70px;font-family:'JetBrains Mono',monospace;text-align:center}
+.exam-save-btn{padding:7px 16px;background:var(--accent);color:white;border:none;border-radius:6px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85em}
+@media(max-width:600px){.container{padding:18px}h1{font-size:1.3em}.countdown-days{font-size:2.4em}.stat-row,.btn-row,.btn-row3,.results-breakdown{grid-template-columns:1fr}.classify-item{flex-direction:column;align-items:flex-start;gap:8px}.classify-item .ci-text{min-width:unset}}
+</style>
+</head>
+<body>
+<div class="tsar-credit">Created by <span>Tsar Lamour</span></div>
+<div class="version-label">Management v2.0</div>
+<div class="container">
+<div id="dashboard">
+<h1>📋 Tsar Lamour's Management Exam Prep</h1>
+<p class="subtitle">Principles of Management — Exam 2 Cram Mode</p>
+<div class="countdown-card" id="countdownCard"><div class="countdown-days" id="countdownDays">--</div><div class="countdown-label">Days Until Exam</div><div class="countdown-sublabel"><span class="countdown-edit" id="countdownDate" onclick="toggleDateEditor()">--</span></div><div class="date-editor" id="dateEditor"><input type="date" id="examDateInput"><button onclick="setExamDate()">Set</button></div></div>
+<div class="stat-row"><div class="stat-box"><div class="stat-val" id="totalAnswered">0</div><div class="stat-label">Answered</div></div><div class="stat-box"><div class="stat-val" id="totalAccuracy">0%</div><div class="stat-label">Accuracy</div></div></div>
+<div class="exam-track"><div class="exam-track-header"><span class="exam-track-title">📊 Exam Scores</span><button class="exam-add-btn" onclick="toggleExamEditor()">+ Add Exam</button></div><div class="exam-list" id="examList"></div><div class="exam-avg" id="examAvg"></div><div class="exam-editor" id="examEditor"><div class="exam-editor-row"><input type="text" id="examNameInput" placeholder="Exam name" style="flex:1;min-width:100px" maxlength="20"><input type="number" id="examScoreInput" placeholder="Score" min="0" max="100"><select id="examCurveSelect"><option value="before">Before curve</option><option value="after">After curve</option></select><button class="exam-save-btn" onclick="saveExam()">Save</button></div></div></div>
+<div id="chapterList"></div>
+<div class="pomo-bar"><div class="pomo-time work" id="pomoTimeDash">25:00</div><div class="pomo-label">Pomodoro<span class="pomo-phase" id="pomoPhaseDash">Ready to focus</span></div><span class="pomo-rounds" id="pomoRoundsDash">0/4</span><button class="pomo-btn" id="pomoBtnDash" onclick="togglePomo()">Start</button></div>
+<button class="resume-btn" id="resumeBtn" onclick="resumeSession()">▶ Resume Session<div class="resume-sub" id="resumeSub"></div></button>
+<button class="start-btn" onclick="startSession('all')">🚀 Start Mixed Session (10 Questions)</button>
+<div class="btn-row3"><button class="focus-btn" onclick="startSession('strategy')">Strategy</button><button class="focus-btn" onclick="startSession('structure')">Structure</button><button class="focus-btn" onclick="startSession('control')">Control</button></div>
+<div class="btn-row"><button class="focus-btn" onclick="startSession('change')">Change</button><button class="focus-btn" onclick="startSession('motivation')">Motivation</button></div>
+<button class="device-btn" onclick="toggleDevicePanel()"><span class="device-icon">🎮</span> Controller / Keybinds<span class="device-active-name" id="activeDeviceName">Keyboard</span></button>
+<div class="device-panel" id="devicePanel"><div class="device-panel-title">Anki Rating Devices</div><div class="device-list" id="deviceList"></div><button class="add-device-btn" onclick="openDeviceEditor(null)">+ Add Device</button><div class="device-editor" id="deviceEditor"><div class="de-title" id="deTitle">New Device</div><div class="de-name-row"><input class="de-name-input" id="deNameInput" placeholder="Device name" maxlength="30"></div><div class="de-key-grid"><div class="de-key-item"><div class="de-key-label">Again</div><div class="de-key-capture" id="deKey_again" onclick="startCapture('again')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Hard</div><div class="de-key-capture" id="deKey_hard" onclick="startCapture('hard')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Good</div><div class="de-key-capture" id="deKey_good" onclick="startCapture('good')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Easy</div><div class="de-key-capture" id="deKey_easy" onclick="startCapture('easy')">click to bind</div></div><div class="de-key-item"><div class="de-key-label">Submit</div><div class="de-key-capture" id="deKey_submit" onclick="startCapture('submit')">click to bind</div></div></div><div class="de-actions"><button class="de-cancel-btn" onclick="closeDeviceEditor()">Cancel</button><button class="de-save-btn" onclick="saveDevice()">Save Device</button></div></div></div>
+</div>
+<div id="gameArea">
+<button class="back-btn" onclick="backToDash()">← Dashboard</button>
+<div class="pomo-bar"><div class="pomo-time work" id="pomoTimeGame">25:00</div><div class="pomo-label">Pomodoro<span class="pomo-phase" id="pomoPhaseGame">Ready to focus</span></div><span class="pomo-rounds" id="pomoRoundsGame">0/4</span><button class="pomo-btn" id="pomoBtnGame" onclick="togglePomo()">Start</button></div>
+<div class="score-bar"><span class="score-correct" id="sCorrect">✓ 0</span><span class="score-wrong" id="sWrong">✗ 0</span><span class="score-remaining" id="sRemain">Remaining: 10</span></div>
+<div class="q-header"><span class="q-progress" id="qProgress">1 / 10</span><span class="q-chapter" id="qChapter">Strategy</span></div>
+<div id="qText" class="q-text"></div><div id="qScenario" class="q-scenario" style="display:none"></div><div id="qBody"></div>
+<div class="action-bar"><button class="submit-btn" id="submitBtn" onclick="submitAnswer()">Check Answer</button><button class="hint-btn" id="hintBtn" onclick="toggleHint()">💡 Hint</button><button class="next-btn" id="nextBtn" onclick="nextQuestion()" style="display:none">Next →</button></div>
+<div class="hint-box" id="hintBox"></div><div class="wt-panel" id="wtPanel"></div><div class="feedback-box" id="feedbackBox"></div>
+<div class="anki-bar" id="ankiBar" style="display:none"><div class="anki-btn-wrap"><div class="anki-interval" id="ai_again">&lt;1m</div><button class="anki-btn again" onclick="rateCard('again')">Again</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_hard">1d</div><button class="anki-btn hard" onclick="rateCard('hard')">Hard</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_good">1d</div><button class="anki-btn good" onclick="rateCard('good')">Good</button></div><div class="anki-btn-wrap"><div class="anki-interval" id="ai_easy">3d</div><button class="anki-btn easy" onclick="rateCard('easy')">Easy</button></div></div>
+<div class="anki-key-hint" id="ankiKeyHint" style="display:none"></div>
+</div>
+<div id="resultsScreen" style="display:none"><div class="results-card"><h1>Session Complete!</h1><div class="results-score" id="resultsScore">0%</div><p style="color:var(--text-muted);margin-bottom:16px" id="resultsMsg"></p><div class="results-breakdown" id="resultsBreakdown"></div><button class="start-btn" onclick="backToDash()">← Back to Dashboard</button></div></div>
+</div>
+<script>
+// Due to file size, all JS is inline below
+// ════════════════════════════════════════════════════════
+// CONFIG & STATE
+// ════════════════════════════════════════════════════════
+let examDate=new Date(localStorage.getItem('mgmtExamDate')||'2026-03-23T00:00:00');
+if(isNaN(examDate.getTime()))examDate=new Date('2026-03-23T00:00:00');
+function setExamDateValue(d){examDate=d;localStorage.setItem('mgmtExamDate',d.toISOString());}
+function formatExamDate(){const m=['January','February','March','April','May','June','July','August','September','October','November','December'];return m[examDate.getMonth()]+' '+examDate.getDate()+', '+examDate.getFullYear();}
+function toggleDateEditor(){const ed=document.getElementById('dateEditor');ed.classList.toggle('open');if(ed.classList.contains('open'))document.getElementById('examDateInput').value=examDate.toISOString().split('T')[0];}
+function setExamDate(){const v=document.getElementById('examDateInput').value;if(!v)return;const d=new Date(v+'T00:00:00');if(isNaN(d.getTime()))return;setExamDateValue(d);document.getElementById('dateEditor').classList.remove('open');updateDashboard();}
+const CHAPTERS={strategy:{name:'Strategy',color:'#818cf8',topics:['SWOT','Porter\'s 5 Forces','Business Level','Corporate Level']},structure:{name:'Structure',color:'#f59e0b',topics:['Functional/Divisional/Matrix','Centralized vs Decentralized']},control:{name:'Control',color:'#10b981',topics:['Output','Behavioral','Clan']},change:{name:'Change',color:'#f43f5e',topics:['4-Step Process','Top-Down vs Bottom-Up']},motivation:{name:'Motivation',color:'#06b6d4',topics:['Extrinsic/Intrinsic/Prosocial','Equity','Expectancy','Maslow\'s']}};
+let state=JSON.parse(localStorage.getItem('mgmtState2')||'null')||{stats:{strategy:{correct:0,total:0},structure:{correct:0,total:0},control:{correct:0,total:0},change:{correct:0,total:0},motivation:{correct:0,total:0}},totalCorrect:0,totalAnswered:0};
+function saveState(){localStorage.setItem('mgmtState2',JSON.stringify(state));}
+let session={questions:[],idx:0,correct:0,wrong:0,answered:false,mode:'all',currentGenerator:'unknown'};
+let currentAnswer=null,currentHint='',currentWalkthrough=[],wtStepIdx=0;
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){let r=[...a];for(let i=r.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function R(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+const coNames=['Apex','Beacon','Crestview','Delta','Falcon','Harbor','Ironwood','Jasper','Keystone','Lakeview','Monarch','Nexus','Oakridge','Pinnacle','Quantum','Summit','Titan','Unity','Vertex'];
+const coTypes=['Services','Consulting','Enterprises','Solutions','Corp','Industries','Tech','Foods','Manufacturing'];
+function randCo(){return pick(coNames)+' '+pick(coTypes);}
+
+// HINTS
+const HINTS={
+swotSort:`<div class="hint-title">💡 SWOT = Internal + External</div><div class="hint-step"><span class="hint-num">S</span><span><span class="hint-key">Strengths</span> — INTERNAL positive (resources, skills, brand)</span></div><div class="hint-step"><span class="hint-num">W</span><span><span class="hint-key">Weaknesses</span> — INTERNAL negative (gaps, old tech)</span></div><div class="hint-step"><span class="hint-num">O</span><span><span class="hint-key">Opportunities</span> — EXTERNAL positive (new markets, trends)</span></div><div class="hint-step"><span class="hint-num">T</span><span><span class="hint-key">Threats</span> — EXTERNAL negative (competitors, regulation)</span></div><p>Ask: "Is this about US or the WORLD?" Then: "Is it GOOD or BAD?"</p>`,
+portersIdentify:`<div class="hint-title">💡 Porter's 5 Forces</div><div class="hint-step"><span class="hint-num">1</span><span><span class="hint-key">Rivalry</span> — existing competitors fighting (price wars, ad battles)</span></div><div class="hint-step"><span class="hint-num">2</span><span><span class="hint-key">New entrants</span> — new companies entering (barriers high or low?)</span></div><div class="hint-step"><span class="hint-num">3</span><span><span class="hint-key">Substitutes</span> — different products, same need (streaming vs cable)</span></div><div class="hint-step"><span class="hint-num">4</span><span><span class="hint-key">Buyer power</span> — customers pressure you (many choices, easy switch)</span></div><div class="hint-step"><span class="hint-num">5</span><span><span class="hint-key">Supplier power</span> — suppliers pressure you (few alternatives)</span></div>`,
+businessStrategy:`<div class="hint-title">💡 Business Level = HOW you compete</div><p>Two questions: <span class="hint-key">Broad or narrow</span>? <span class="hint-key">Low cost or unique</span>?</p><div class="hint-step"><span class="hint-num">1</span><span>Broad + Low cost = <span class="hint-key">Low-cost leadership</span> (Walmart)</span></div><div class="hint-step"><span class="hint-num">2</span><span>Broad + Unique = <span class="hint-key">Differentiation</span> (Apple)</span></div><div class="hint-step"><span class="hint-num">3</span><span>Narrow + Low cost = <span class="hint-key">Focused low-cost</span> (Spirit Airlines)</span></div><div class="hint-step"><span class="hint-num">4</span><span>Narrow + Unique = <span class="hint-key">Focused differentiation</span> (Rolex)</span></div>`,
+corporateStrategy:`<div class="hint-title">💡 Corporate Level = WHERE you compete</div><div class="hint-step"><span class="hint-num">1</span><span><span class="hint-key">Concentration</span> — stay in ONE industry</span></div><div class="hint-step"><span class="hint-num">2</span><span><span class="hint-key">Vertical integration</span> — move along supply chain (backward=suppliers, forward=customers)</span></div><div class="hint-step"><span class="hint-num">3</span><span><span class="hint-key">Related diversification</span> — new industry that SHARES resources/tech</span></div><div class="hint-step"><span class="hint-num">4</span><span><span class="hint-key">Unrelated diversification</span> — totally UNCONNECTED industry (riskiest)</span></div>`,
+controlSort:`<div class="hint-title">💡 Three types of control</div><div class="hint-step"><span class="hint-num">O</span><span><span class="hint-key">Output</span> — measures RESULTS (targets, ROI, budgets). Ratios are best because they're objective & comparable.</span></div><div class="hint-step"><span class="hint-num">B</span><span><span class="hint-key">Behavioral</span> — manages the PROCESS (supervision, SOPs, MBO)</span></div><div class="hint-step"><span class="hint-num">C</span><span><span class="hint-key">Clan</span> — uses CULTURE & shared values (hiring for fit, mentoring)</span></div>`,
+orgStructures:`<div class="hint-title">💡 Three structures</div><div class="hint-step"><span class="hint-num">F</span><span><span class="hint-key">Functional</span> — grouped by FUNCTION. Efficient but silos.</span></div><div class="hint-step"><span class="hint-num">D</span><span><span class="hint-key">Divisional</span> — grouped by PRODUCT/REGION. Responsive but duplicates.</span></div><div class="hint-step"><span class="hint-num">M</span><span><span class="hint-key">Matrix</span> — TWO bosses. Flexible but confusing.</span></div>`,
+centralization:`<div class="hint-title">💡 Where are decisions made?</div><div class="hint-step"><span class="hint-num">C</span><span><span class="hint-key">Centralized</span> — TOP decides. Consistent but slow. (McDonald's)</span></div><div class="hint-step"><span class="hint-num">D</span><span><span class="hint-key">Decentralized</span> — pushed DOWN. Fast, empowering but inconsistent. (Google)</span></div>`,
+changeProcess:`<div class="hint-title">💡 4 Steps of Change</div><div class="hint-step"><span class="hint-num">1</span><span><span class="hint-key">Assess need</span> — recognize something's broken</span></div><div class="hint-step"><span class="hint-num">2</span><span><span class="hint-key">Decide what</span> — identify specific targets</span></div><div class="hint-step"><span class="hint-num">3</span><span><span class="hint-key">Implement</span> — unfreeze → change → refreeze</span></div><div class="hint-step"><span class="hint-num">4</span><span><span class="hint-key">Evaluate</span> — did it work? Measure results</span></div>`,
+topDownBottomUp:`<div class="hint-title">💡 Top-Down vs Bottom-Up</div><div class="hint-step"><span class="hint-num">↓</span><span><span class="hint-key">Top-down</span> — leadership drives it. Fast, clear. May face resistance.</span></div><div class="hint-step"><span class="hint-num">↑</span><span><span class="hint-key">Bottom-up</span> — employees drive it. More buy-in. Slower.</span></div>`,
+motivationSort:`<div class="hint-title">💡 Three motivation types</div><div class="hint-step"><span class="hint-num">E</span><span><span class="hint-key">Extrinsic</span> — EXTERNAL: money, bonuses, grades, punishment</span></div><div class="hint-step"><span class="hint-num">I</span><span><span class="hint-key">Intrinsic</span> — INTERNAL: enjoyment, curiosity, growth</span></div><div class="hint-step"><span class="hint-num">P</span><span><span class="hint-key">Prosocial</span> — helping OTHERS: positive impact on people</span></div>`,
+equityTheory:`<div class="hint-title">💡 Equity Theory = Is this FAIR?</div><p>Compare: <span class="hint-key">My inputs/outcomes vs. Their inputs/outcomes</span></p><p>Equal = equity. Mine worse = underpayment (reduce effort/quit). Mine better = overpayment (guilt, work harder).</p>`,
+expectancyTheory:`<div class="hint-title">💡 Expectancy = E × I × V</div><div class="hint-step"><span class="hint-num">E</span><span><span class="hint-key">Expectancy</span> — Can I perform? (effort→performance)</span></div><div class="hint-step"><span class="hint-num">I</span><span><span class="hint-key">Instrumentality</span> — Will I get rewarded? (performance→outcome)</span></div><div class="hint-step"><span class="hint-num">V</span><span><span class="hint-key">Valence</span> — Do I want it? (desirability)</span></div><p>If ANY = 0, motivation = <span class="hint-key">0</span>.</p>`,
+maslowSort:`<div class="hint-title">💡 Maslow (bottom→top)</div><div class="hint-step"><span class="hint-num">1</span><span><span class="hint-key">Physiological</span> — food, water, shelter</span></div><div class="hint-step"><span class="hint-num">2</span><span><span class="hint-key">Safety</span> — security, stability, job security</span></div><div class="hint-step"><span class="hint-num">3</span><span><span class="hint-key">Belongingness</span> — friendship, team, connection</span></div><div class="hint-step"><span class="hint-num">4</span><span><span class="hint-key">Esteem</span> — respect, recognition, achievement</span></div><div class="hint-step"><span class="hint-num">5</span><span><span class="hint-key">Self-actualization</span> — full potential, creativity, growth</span></div>`,
+};
+
+function toggleHint(){const box=document.getElementById('hintBox'),btn=document.getElementById('hintBtn');if(box.classList.contains('show')){box.classList.remove('show');btn.classList.remove('open');}else{let h=currentHint||'';if(currentWalkthrough.length)h+=`<button class="wt-trigger" onclick="openWalkthrough()">🤝 Walk me through the reasoning</button>`;box.innerHTML=h;box.classList.add('show');btn.classList.add('open');}}
+function openWalkthrough(){wtStepIdx=0;const p=document.getElementById('wtPanel');let h=`<div class="wt-title">🤝 Let's reason through this</div>`;currentWalkthrough.forEach((s,i)=>{h+=`<div class="wt-step" id="wtStep${i}"><div class="wt-step-label">${s.label||'Step '+(i+1)}</div><div class="wt-step-text">${s.text}</div>${s.math?'<div class="wt-math">'+s.math+'</div>':''}${s.result?'<div class="wt-math"><span class="wt-result">'+s.result+'</span></div>':''}${s.note?'<div class="wt-note">'+s.note+'</div>':''}</div>`;});h+=`<button class="wt-next-btn" id="wtNextBtn" onclick="nextWtStep()">Show first step →</button><div class="wt-done" id="wtDone" style="display:none">✓ Now try the answer above!</div>`;p.innerHTML=h;p.classList.add('show');p.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function nextWtStep(){if(wtStepIdx>=currentWalkthrough.length)return;document.getElementById('wtStep'+wtStepIdx).classList.add('revealed');wtStepIdx++;if(wtStepIdx>=currentWalkthrough.length){document.getElementById('wtNextBtn').style.display='none';document.getElementById('wtDone').style.display='block';}else document.getElementById('wtNextBtn').textContent='Next step →';document.getElementById('wtStep'+(wtStepIdx-1)).scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+// FSRS v4
+const FW=[0.4072,1.1829,3.1262,15.4722,7.2102,0.5316,1.0651,0.0589,1.5330,0.1544,1.0070,1.9395,0.1100,0.2900,2.2700,0.2500,2.9898];
+const DECAY=-0.5,FACTOR=Math.pow(0.9,1/DECAY)-1,TARGET_R=0.85;
+let fsrsCards=JSON.parse(localStorage.getItem('mgmtFsrs2')||'{}');
+function saveFsrs(){localStorage.setItem('mgmtFsrs2',JSON.stringify(fsrsCards));}
+function fsrsR(e,s){return Math.pow(1+FACTOR*e/s,DECAY);}
+function fsrsSch(s){return Math.max(1,Math.min(Math.max(1,Math.ceil((examDate-Date.now())/864e5)),Math.round(s/FACTOR*(Math.pow(TARGET_R,1/DECAY)-1))));}
+function fsrsS0(g){return FW[g-1];}function fsrsD0(g){return Math.min(10,Math.max(1,FW[4]-Math.exp(FW[5]*(g-1))+1));}
+function fsrsRS(d,s,r,g){return Math.max(.01,s*Math.exp(FW[8])*(11-d)*Math.pow(s,-FW[9])*(Math.exp(FW[10]*(1-r))-1)*(g===2?FW[15]:1)*(g===4?FW[16]:1));}
+function fsrsFS(d,s,r){return Math.max(.01,FW[11]*Math.pow(d,-FW[12])*(Math.pow(s+1,FW[13])-1)*Math.exp(FW[14]*(1-r)));}
+function fsrsND(d,g){return Math.min(10,Math.max(1,FW[7]*fsrsD0(3)+(1-FW[7])*(d-FW[6]*(g-3))));}
+function compIV(k){const c=fsrsCards[k];if(!c)return{again:fsrsSch(fsrsS0(1)),hard:fsrsSch(fsrsS0(2)),good:fsrsSch(fsrsS0(3)),easy:fsrsSch(fsrsS0(4))};const e=Math.max(0,(Date.now()-c.lr)/864e5),r=fsrsR(e,c.s);return{again:fsrsSch(fsrsFS(c.d,c.s,r)),hard:fsrsSch(fsrsRS(c.d,c.s,r,2)),good:fsrsSch(fsrsRS(c.d,c.s,r,3)),easy:fsrsSch(fsrsRS(c.d,c.s,r,4))};}
+function fmtIV(d){if(d<1)return Math.round(d*24)+'h';if(d===1)return'1d';if(d<30)return d+'d';return Math.round(d/30)+'mo';}
+function fsrsPri(k){const c=fsrsCards[k];if(!c)return 5;return Math.max(.1,(Date.now()-c.lr)/864e5/c.iv)*(1+(c.d||5)/10);}
+function fsrsPick(g){const w=g.map(x=>fsrsPri(x.name)),t=w.reduce((s,v)=>s+v,0);let r=Math.random()*t;for(let i=0;i<g.length;i++){r-=w[i];if(r<=0)return g[i];}return g[g.length-1];}
+function updateAnkiIV(){const iv=compIV(session.currentGenerator);document.getElementById('ai_again').textContent=fmtIV(iv.again);document.getElementById('ai_hard').textContent=fmtIV(iv.hard);document.getElementById('ai_good').textContent=fmtIV(iv.good);document.getElementById('ai_easy').textContent=fmtIV(iv.easy);}
+function rateCard(rating){const k=session.currentGenerator,c=fsrsCards[k],g={again:1,hard:2,good:3,easy:4}[rating];let nS,nD;if(!c){nS=fsrsS0(g);nD=fsrsD0(g);}else{const e=Math.max(0,(Date.now()-c.lr)/864e5),r=fsrsR(e,c.s);nD=fsrsND(c.d,g);nS=g===1?fsrsFS(c.d,c.s,r):fsrsRS(c.d,c.s,r,g);}fsrsCards[k]={s:nS,d:nD,lr:Date.now(),iv:fsrsSch(nS)};saveFsrs();nextQuestion();}
+
+// DEVICES
+const DDEV=[{id:'keyboard',name:'Keyboard',builtin:true,keys:{again:' ',hard:'y',good:'b',easy:'a',submit:'Enter'}},{id:'scope',name:'Scope Gamepad',builtin:true,keys:{again:' ',hard:'2',good:'1',easy:'4',submit:'y'}}];
+let devices=JSON.parse(localStorage.getItem('mgmtDev2')||'null')||JSON.parse(JSON.stringify(DDEV));
+let activeDevId=localStorage.getItem('mgmtAD2')||'keyboard',editDevId=null,capTarget=null;
+function saveDev(){localStorage.setItem('mgmtDev2',JSON.stringify(devices));localStorage.setItem('mgmtAD2',activeDevId);}
+function getAD(){return devices.find(d=>d.id===activeDevId)||devices[0];}
+function kdn(k){if(k===' ')return'Space';if(k==='Enter')return'Enter';if(k.length===1)return k.toUpperCase();return k;}
+function toggleDevicePanel(){document.getElementById('devicePanel').classList.toggle('open');renderDevList();}
+function renderDevList(){document.getElementById('deviceList').innerHTML=devices.map(d=>`<div class="device-item${d.id===activeDevId?' active':''}" onclick="setAD('${d.id}')"><div class="di-radio"></div><span class="di-name">${d.name}</span><span class="di-keys">${[d.keys.again,d.keys.hard,d.keys.good,d.keys.easy].map(kdn).join(' · ')}</span><div class="di-actions"><button class="di-action-btn" onclick="event.stopPropagation();openDE('${d.id}')">Edit</button>${d.builtin?'':`<button class="di-action-btn delete" onclick="event.stopPropagation();delDev('${d.id}')">✕</button>`}</div></div>`).join('');document.getElementById('activeDeviceName').textContent=getAD().name;}
+function setAD(id){activeDevId=id;saveDev();renderDevList();updKH();}
+function openDE(id){editDevId=id;document.getElementById('deviceEditor').classList.add('open');if(id){const d=devices.find(x=>x.id===id);document.getElementById('deTitle').textContent='Edit: '+d.name;document.getElementById('deNameInput').value=d.name;for(let s of['again','hard','good','easy','submit']){const el=document.getElementById('deKey_'+s);if(d.keys[s]){el.textContent=kdn(d.keys[s]);el.classList.add('bound');el.classList.remove('listening');el.dataset.key=d.keys[s];}else{el.textContent='click to bind';el.classList.remove('bound','listening');el.dataset.key='';}}}else{document.getElementById('deTitle').textContent='New Device';document.getElementById('deNameInput').value='';for(let s of['again','hard','good','easy','submit']){const el=document.getElementById('deKey_'+s);el.textContent='click to bind';el.classList.remove('bound','listening');el.dataset.key='';}}capTarget=null;}
+function closeDeviceEditor(){document.getElementById('deviceEditor').classList.remove('open');capTarget=null;for(let s of['again','hard','good','easy','submit'])document.getElementById('deKey_'+s).classList.remove('listening');}
+function startCapture(s){for(let x of['again','hard','good','easy','submit'])document.getElementById('deKey_'+x).classList.remove('listening');capTarget=s;document.getElementById('deKey_'+s).classList.add('listening');document.getElementById('deKey_'+s).textContent='press a key...';}
+document.addEventListener('keydown',function(e){if(!capTarget)return;e.preventDefault();e.stopPropagation();const el=document.getElementById('deKey_'+capTarget);el.dataset.key=e.key;el.textContent=kdn(e.key);el.classList.remove('listening');el.classList.add('bound');capTarget=null;},true);
+function saveDevice(){const n=document.getElementById('deNameInput').value.trim();if(!n)return;const keys={};for(let s of['again','hard','good','easy']){const k=document.getElementById('deKey_'+s).dataset.key;if(!k)return;keys[s]=k;}const sk=document.getElementById('deKey_submit').dataset.key;if(sk)keys.submit=sk;if(editDevId){const d=devices.find(x=>x.id===editDevId);d.name=n;d.keys=keys;}else{const id='dev_'+Date.now();devices.push({id,name:n,builtin:false,keys});activeDevId=id;}saveDev();closeDeviceEditor();renderDevList();updKH();}
+function delDev(id){devices=devices.filter(d=>d.id!==id);if(activeDevId===id)activeDevId=devices[0].id;saveDev();renderDevList();updKH();}
+function updKH(){const k=getAD().keys;const h=document.getElementById('ankiKeyHint');if(h)h.innerHTML=`<span><em>${kdn(k.again)}</em> Again</span><span><em>${kdn(k.hard)}</em> Hard</span><span><em>${kdn(k.good)}</em> Good</span><span><em>${kdn(k.easy)}</em> Easy</span>`;document.getElementById('activeDeviceName').textContent=getAD().name;}
+function km(p,b){if(!b)return false;if(p===b)return true;if(p.length===1&&b.length===1)return p.toLowerCase()===b.toLowerCase();return false;}
+document.addEventListener('keydown',function(e){if(capTarget)return;if(document.getElementById('gameArea').style.display==='none')return;const k=getAD().keys;if(!session.answered&&k.submit&&km(e.key,k.submit)){const t=document.activeElement&&document.activeElement.tagName;if(t!=='INPUT'&&t!=='SELECT'&&t!=='TEXTAREA'){e.preventDefault();submitAnswer();return;}}if(!session.answered)return;const t=document.activeElement&&document.activeElement.tagName;if(t==='INPUT'||t==='SELECT'||t==='TEXTAREA')return;if(km(e.key,k.again)){e.preventDefault();rateCard('again');}else if(km(e.key,k.hard)){e.preventDefault();rateCard('hard');}else if(km(e.key,k.good)){e.preventDefault();rateCard('good');}else if(km(e.key,k.easy)){e.preventDefault();rateCard('easy');}});
+
+// EXAMS
+let exams=JSON.parse(localStorage.getItem('mgmtExams2')||'[]');
+function saveExams(){localStorage.setItem('mgmtExams2',JSON.stringify(exams));}
+function renderExams(){if(!exams.length){document.getElementById('examList').innerHTML='<span style="font-size:0.82em;color:var(--text-muted)">No exams yet</span>';document.getElementById('examAvg').innerHTML='';return;}document.getElementById('examList').innerHTML=exams.map(e=>`<div class="exam-card"><div class="ec-name">${e.name}</div><div class="ec-score ${e.score>=90?'great':e.score>=70?'ok':'bad'}">${e.score}%</div><div class="ec-note">${e.curve==='after'?'after curve':'before curve'}</div><button class="ec-del" onclick="deleteExam('${e.id}')">✕</button></div>`).join('');const avg=Math.round(exams.reduce((s,e)=>s+e.score,0)/exams.length);let h='Average: '+avg+'%';if(exams.length>=2){const d=exams[exams.length-1].score-exams[exams.length-2].score;if(d>0)h+=' <span class="exam-trend">↑ +'+d+'</span>';else if(d<0)h+=' <span class="exam-trend down">↓ '+d+'</span>';}document.getElementById('examAvg').innerHTML=h;}
+function toggleExamEditor(){document.getElementById('examEditor').classList.toggle('open');}
+function saveExam(){const n=document.getElementById('examNameInput').value.trim()||'Exam '+(exams.length+1);const s=parseInt(document.getElementById('examScoreInput').value);if(isNaN(s)||s<0||s>100)return;exams.push({id:'e'+Date.now(),name:n,score:s,curve:document.getElementById('examCurveSelect').value});saveExams();document.getElementById('examEditor').classList.remove('open');renderExams();}
+function deleteExam(id){exams=exams.filter(e=>e.id!==id);saveExams();renderExams();}
+
+// DASHBOARD & SESSION
+function updateDashboard(){let now=new Date(),diff=examDate-now,days=Math.max(0,Math.ceil(diff/864e5));document.getElementById('countdownDays').textContent=days;document.getElementById('countdownDays').style.color=days<=0?'var(--text-muted)':days<=3?'var(--danger)':days<=7?'var(--warning)':'var(--accent)';document.getElementById('countdownCard').className='countdown-card'+(days<=0?'':days<=3?' urgent':days<=7?' warning':'');let dl=formatExamDate();if(days<=0)dl+=' — Exam passed!';else if(days<=3)dl+=' — CRUNCH TIME!';document.getElementById('countdownDate').textContent=dl;document.getElementById('totalAnswered').textContent=state.totalAnswered;document.getElementById('totalAccuracy').textContent=(state.totalAnswered>0?Math.round(state.totalCorrect/state.totalAnswered*100):0)+'%';let h='';for(let ch in CHAPTERS){let c=CHAPTERS[ch],s=state.stats[ch],p=s.total>0?Math.round(s.correct/s.total*100):0;h+=`<div class="chapter-block"><div class="ch-header"><span class="ch-title" style="color:${c.color}">${c.name}</span><span class="ch-badge">${p}% (${s.correct}/${s.total})</span></div><div class="ch-topics">${c.topics.join(' · ')}</div><div class="ch-progress"><div class="ch-progress-fill" style="width:${Math.min(p,100)}%;background:${c.color}"></div></div></div>`;}document.getElementById('chapterList').innerHTML=h;const sv=getSS(),rb=document.getElementById('resumeBtn');if(sv&&sv.idx<sv.questions.length){let ei=sv.answered?sv.idx+1:sv.idx;if(ei>=sv.questions.length){rb.style.display='none';clrS();}else{rb.style.display='block';document.getElementById('resumeSub').textContent=(sv.mode==='all'?'Mixed':CHAPTERS[sv.mode]?CHAPTERS[sv.mode].name:sv.mode)+' · '+(sv.questions.length-ei)+' left';}}else{rb.style.display='none';if(sv)clrS();}}
+function startSession(mode){session={questions:[],idx:0,correct:0,wrong:0,answered:false,mode,currentGenerator:'unknown'};let ct=10,gs=[];if(mode==='all'){for(let i=0;i<4;i++)gs.push('strategy');for(let i=0;i<3;i++)gs.push('motivation');for(let i=0;i<3;i++)gs.push('control');for(let i=0;i<2;i++)gs.push('structure');for(let i=0;i<2;i++)gs.push('change');}else for(let i=0;i<ct;i++)gs.push(mode);for(let i=0;i<ct;i++)session.questions.push(pick(gs));svS();document.getElementById('dashboard').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('gameArea').style.display='block';renderQ();}
+function svS(){localStorage.setItem('mgmtS2',JSON.stringify({questions:session.questions,idx:session.idx,correct:session.correct,wrong:session.wrong,mode:session.mode,answered:session.answered}));}
+function clrS(){localStorage.removeItem('mgmtS2');}
+function getSS(){try{return JSON.parse(localStorage.getItem('mgmtS2'));}catch(e){return null;}}
+function resumeSession(){const sv=getSS();if(!sv)return;session={...sv,answered:false,currentGenerator:'unknown'};if(sv.answered){session.idx++;if(session.idx>=session.questions.length){clrS();updateDashboard();return;}}document.getElementById('dashboard').style.display='none';document.getElementById('resultsScreen').style.display='none';document.getElementById('gameArea').style.display='block';renderQ();}
+function backToDash(){document.getElementById('dashboard').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='none';updateDashboard();}
+function renderQ(){session.answered=false;document.getElementById('submitBtn').style.display='';document.getElementById('submitBtn').disabled=false;document.getElementById('nextBtn').style.display='none';document.getElementById('feedbackBox').className='feedback-box';document.getElementById('ankiBar').style.display='none';document.getElementById('ankiKeyHint').style.display='none';document.getElementById('qScenario').style.display='none';document.getElementById('hintBox').className='hint-box';document.getElementById('hintBtn').classList.remove('open');document.getElementById('wtPanel').className='wt-panel';currentWalkthrough=[];wtStepIdx=0;let ch=session.questions[session.idx];document.getElementById('qProgress').textContent=(session.idx+1)+' / '+session.questions.length;document.getElementById('qChapter').textContent=CHAPTERS[ch].name;document.getElementById('qChapter').style.background=CHAPTERS[ch].color;document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;document.getElementById('sRemain').textContent='Remaining: '+(session.questions.length-session.idx);if(ch==='strategy')genStrat();else if(ch==='structure')genStruct();else if(ch==='control')genCtrl();else if(ch==='change')genChg();else if(ch==='motivation')genMotiv();currentHint=HINTS[session.currentGenerator]||'';}
+function submitAnswer(){if(session.answered)return;session.answered=true;if(document.activeElement)document.activeElement.blur();document.getElementById('submitBtn').style.display='none';document.getElementById('nextBtn').style.display='none';updateAnkiIV();document.getElementById('ankiBar').style.display='flex';document.getElementById('ankiKeyHint').style.display='flex';updKH();let r=currentAnswer.check(),ch=session.questions[session.idx];state.stats[ch].total++;state.totalAnswered++;if(r.correct){session.correct++;state.stats[ch].correct++;state.totalCorrect++;showFB('success','✓ Correct!',r.explanation);}else{session.wrong++;showFB('error','✗ '+r.correctText,r.explanation);}saveState();svS();document.getElementById('sCorrect').textContent='✓ '+session.correct;document.getElementById('sWrong').textContent='✗ '+session.wrong;}
+function nextQuestion(){session.idx++;svS();if(session.idx>=session.questions.length)showRes();else renderQ();}
+function showFB(t,title,body){const fb=document.getElementById('feedbackBox');fb.className='feedback-box '+t;fb.innerHTML='<strong>'+title+'</strong>'+(body?'<div style="margin-top:6px">'+body+'</div>':'');}
+function showRes(){clrS();document.getElementById('gameArea').style.display='none';document.getElementById('resultsScreen').style.display='block';let p=Math.round(session.correct/session.questions.length*100);const el=document.getElementById('resultsScore');el.textContent=p+'%';el.className='results-score '+(p>=80?'great':p>=50?'ok':'bad');document.getElementById('resultsMsg').textContent=session.correct+'/'+session.questions.length;let counts={},h='';session.questions.forEach(ch=>{counts[ch]=counts[ch]||{label:CHAPTERS[ch].name,color:CHAPTERS[ch].color};});for(let ch in counts){let s=state.stats[ch],p2=s.total>0?Math.round(s.correct/s.total*100):0;h+=`<div class="rb-item"><div class="rb-ch" style="color:${counts[ch].color}">${counts[ch].label}</div><div class="rb-score">${p2}% overall</div></div>`;}document.getElementById('resultsBreakdown').innerHTML=h;}
+
+// MC & CLASSIFY RENDERERS
+function renderMC(q,opts,ci,expl,scen){document.getElementById('qText').innerHTML=q;if(scen){document.getElementById('qScenario').style.display='block';document.getElementById('qScenario').innerHTML=scen;}document.getElementById('qBody').innerHTML='<div class="mc-options">'+opts.map((o,i)=>`<button class="mc-opt" data-idx="${i}" onclick="selMC(this)">${o}</button>`).join('')+'</div>';currentAnswer={check(){let s=document.querySelector('.mc-opt.selected'),si=s?parseInt(s.dataset.idx):-1;document.querySelectorAll('.mc-opt').forEach(b=>{b.classList.add('locked');if(parseInt(b.dataset.idx)===ci)b.classList.add('correct');else if(parseInt(b.dataset.idx)===si&&si!==ci)b.classList.add('wrong');});return{correct:si===ci,correctText:opts[ci],explanation:expl};}};}
+function selMC(el){if(session.answered)return;document.querySelectorAll('.mc-opt').forEach(b=>b.classList.remove('selected'));el.classList.add('selected');}
+function renderClassify(q,items,optsList,scen){document.getElementById('qText').innerHTML=q;if(scen){document.getElementById('qScenario').style.display='block';document.getElementById('qScenario').innerHTML=scen;}let h='<div class="form-grid">';items.forEach((it,i)=>{h+=`<div class="classify-item" id="ci_${i}"><div class="ci-text">${it.text}</div><select class="field-select" id="cs_${i}"><option value="">— Choose —</option>${optsList.map(o=>`<option value="${o}">${o}</option>`).join('')}</select></div>`;});h+='</div>';document.getElementById('qBody').innerHTML=h;currentAnswer={check(){let ok=true,ex=[];items.forEach((it,i)=>{const s=document.getElementById('cs_'+i),c=document.getElementById('ci_'+i);if(s.value===it.answer){s.classList.add('correct');c.classList.add('ci-correct');}else{s.classList.add('wrong');c.classList.add('ci-wrong');ok=false;}ex.push(`<strong>${it.answer}</strong> — ${it.explain}`);});return{correct:ok,correctText:'See highlighted items',explanation:ex.join('<br>')};}};}
+
+// ═══ STRATEGY GENERATORS ═══
+function genStrat(){let g=fsrsPick([gen_swot,gen_porters,gen_bizStrat,gen_corpStrat]);session.currentGenerator=g.name;g();}
+
+function gen_swot(){
+const co=randCo();
+const P={S:[{t:'Highly skilled management team',e:'Internal talent = internal positive.'},{t:'Owns several valuable patents',e:'Patents are internal assets.'},{t:'Strong brand recognition and loyalty',e:'Brand is built internally.'},{t:'Low turnover, high employee morale',e:'Workforce stability = internal positive.'},{t:'Proprietary supply chain cutting costs 15%',e:'Efficient supply chain = internal advantage.'},{t:'Large cash reserves for R&D',e:'Financial resources = internal asset.'},{t:'Award-winning customer service',e:'Service quality = internal capability.'}],
+W:[{t:'Outdated IT systems slowing operations',e:'Old tech = internal limitation.'},{t:'High turnover in sales department',e:'Turnover = internal problem.'},{t:'Limited online presence vs competitors',e:'Weak digital = internal gap.'},{t:'80% revenue from a single product',e:'Concentration risk = internal vulnerability.'},{t:'Poor cross-department communication',e:'Communication failures = internal weakness.'},{t:'Aging facilities needing renovation',e:'Deteriorated infrastructure = internal.'},{t:'No formal employee training program',e:'Training gap = internal HR weakness.'}],
+O:[{t:'New government subsidy for this industry',e:'Government policy = external.'},{t:'Growing demand for eco-friendly products',e:'Consumer trends = external.'},{t:'Major competitor just filed bankruptcy',e:'Competitor failure = external opportunity.'},{t:'New trade deal opens European markets',e:'Trade policy = external.'},{t:'Emerging tech could cut production costs industry-wide',e:'Industry tech = external development.'},{t:'Population growth in target demographic',e:'Demographics = external.'},{t:'Remote work trend creates product demand',e:'Societal trend = external.'}],
+T:[{t:'New regulation increasing compliance costs 20%',e:'Regulation = external.'},{t:'Two well-funded competitors entering market',e:'New competitors = external threat.'},{t:'Rising raw material costs from supply disruptions',e:'Commodity prices = external.'},{t:'Consumer preferences shifting away from core product',e:'Changing tastes = external.'},{t:'Economic recession reducing spending',e:'Macro economy = external.'},{t:'New tech could make product obsolete',e:'Disruptive tech = external threat.'},{t:'Negative media coverage of entire industry',e:'Media sentiment = external.'}]};
+const items=[];for(let cat of['S','W','O','T']){shuffle(P[cat]).slice(0,2).forEach(p=>items.push({text:p.t,answer:cat==='S'?'Strength':cat==='W'?'Weakness':cat==='O'?'Opportunity':'Threat',explain:p.e}));}
+const sh=shuffle(items);
+currentWalkthrough=sh.map((it,i)=>({label:'Item '+(i+1),text:`"${it.text}"`,math:'Internal or external? Good or bad?',result:'→ '+it.answer,note:it.explain}));
+renderClassify(`<strong>SWOT Analysis</strong> — Classify each factor for <strong>${co}</strong>`,sh,['Strength','Weakness','Opportunity','Threat'],`Classify each factor. <em>S & W = internal. O & T = external.</em>`);}
+
+function gen_porters(){
+const forces=['Rivalry among competitors','Threat of new entrants','Threat of substitutes','Bargaining power of buyers','Bargaining power of suppliers'];
+const P={'Rivalry among competitors':[{t:'Companies aggressively cut prices to steal customers',e:'Price wars between existing players = rivalry.'},{t:'Companies spend heavily on ads against nearly identical competitors',e:'Ad battles among current competitors = rivalry.'},{t:'Growth stalled — companies fight over the same customers',e:'Zero-sum competition = intense rivalry.'}],
+'Threat of new entrants':[{t:'Low startup costs make it easy for newcomers',e:'Low barriers = high threat of entry.'},{t:'Strong patents make it expensive for newcomers',e:'High barriers = low entry threat.'},{t:'A deep-pocketed tech company announced plans to enter',e:'Well-funded entrant = entry threat materializing.'}],
+'Threat of substitutes':[{t:'Consumers switch to a completely different product that meets the same need',e:'Different product, same need = substitute.'},{t:'New tech offers a cheaper alternative way to solve the problem',e:'Alternative tech = substitute threat.'},{t:'Customers easily choose a different product category',e:'Easy category switching = substitute threat.'}],
+'Bargaining power of buyers':[{t:'A few large customers account for most revenue and demand discounts',e:'Few big buyers = high buyer power.'},{t:'Customers compare prices online and switch at no cost',e:'Low switching costs = high buyer power.'},{t:'Buyers threaten to make the product themselves',e:'Backward integration threat = buyer leverage.'}],
+'Bargaining power of suppliers':[{t:'One company controls the only source of a critical component',e:'Monopoly on key input = extreme supplier power.'},{t:'Raw material suppliers raise prices with no alternatives',e:'No alternatives = suppliers dictate terms.'},{t:'Suppliers threaten to sell directly to end customers',e:'Forward integration threat = supplier leverage.'}]};
+const items=[];for(let f of forces){const p=pick(P[f]);items.push({text:p.t,answer:f,explain:p.e});}
+const sh=shuffle(items);
+currentWalkthrough=sh.map((it,i)=>({label:'Scenario '+(i+1),text:`"${it.text}"`,result:'→ '+it.answer,note:it.explain}));
+renderClassify(`<strong>Porter's 5 Forces</strong> — Identify which force`,sh,forces,`For each scenario, identify which of Porter's Five Forces is illustrated.`);}
+
+function gen_bizStrat(){
+const S=[{co:randCo(),d:'sells basic products at rock-bottom prices to every customer segment',a:'Low-cost leadership',sc:'Broad',ad:'Low cost',e:'Cheapest across the WHOLE market = low-cost leadership (Walmart).'},{co:randCo(),d:'offers premium innovative products with unique features to the mass market',a:'Differentiation',sc:'Broad',ad:'Unique product',e:'Unique for WHOLE market = differentiation (Apple).'},{co:randCo(),d:'provides budget organic snacks exclusively for health-conscious college students',a:'Focused low-cost',sc:'Narrow',ad:'Low cost',e:'Cheapest for a NICHE = focused low-cost.'},{co:randCo(),d:'handcrafts luxury leather goods exclusively for high-end collectors',a:'Focused differentiation',sc:'Narrow',ad:'Unique product',e:'Unique for a NICHE = focused differentiation (Rolex).'},{co:randCo(),d:'uses massive economies of scale to offer the lowest prices industry-wide',a:'Low-cost leadership',sc:'Broad',ad:'Low cost',e:'Lowest cost in ENTIRE industry = low-cost leadership.'},{co:randCo(),d:'creates award-winning products with features competitors can\'t replicate for a wide audience',a:'Differentiation',sc:'Broad',ad:'Unique product',e:'Unique, hard-to-copy for WIDE audience = differentiation.'},{co:randCo(),d:'runs a no-frills ultra-cheap shuttle only between two small cities larger carriers ignore',a:'Focused low-cost',sc:'Narrow',ad:'Low cost',e:'Cheapest in narrow geographic niche = focused low-cost.'},{co:randCo(),d:'designs custom ergonomic workstations exclusively for professional video editors',a:'Focused differentiation',sc:'Narrow',ad:'Unique product',e:'Unique product for narrow professional niche = focused differentiation.'}];
+const s=pick(S);
+currentWalkthrough=[{label:'Scope',text:'Broad market or narrow niche?',result:s.sc},{label:'Advantage',text:'Competing on low cost or unique product?',result:s.ad},{label:'Strategy',text:s.sc+' + '+s.ad,result:'= '+s.a,note:s.e}];
+document.getElementById('qText').innerHTML=`<strong>Business-Level Strategy</strong> — Identify the strategy`;
+document.getElementById('qScenario').style.display='block';document.getElementById('qScenario').innerHTML=`<strong>${s.co}</strong> ${s.d}.<br><br>Answer the two questions, then identify the strategy:`;
+document.getElementById('qBody').innerHTML=`<div class="form-grid"><div class="classify-item" id="ci_0"><div class="ci-text">1. Targeting <strong>broad</strong> or <strong>narrow</strong>?</div><select class="field-select" id="cs_0"><option value="">— Choose —</option><option value="Broad">Broad market</option><option value="Narrow">Narrow niche</option></select></div><div class="classify-item" id="ci_1"><div class="ci-text">2. Competing on <strong>low cost</strong> or <strong>unique</strong>?</div><select class="field-select" id="cs_1"><option value="">— Choose —</option><option value="Low cost">Low cost</option><option value="Unique product">Unique product</option></select></div><div class="classify-item" id="ci_2"><div class="ci-text">3. Therefore the strategy is:</div><select class="field-select" id="cs_2"><option value="">— Choose —</option><option value="Low-cost leadership">Low-cost leadership</option><option value="Differentiation">Differentiation</option><option value="Focused low-cost">Focused low-cost</option><option value="Focused differentiation">Focused differentiation</option></select></div></div>`;
+currentAnswer={check(){let ok=true;[{id:'cs_0',a:s.sc},{id:'cs_1',a:s.ad},{id:'cs_2',a:s.a}].forEach(f=>{const el=document.getElementById(f.id);if(el.value===f.a)el.classList.add('correct');else{el.classList.add('wrong');ok=false;}});return{correct:ok,correctText:s.a,explanation:`Scope: ${s.sc} | Advantage: ${s.ad} → <strong>${s.a}</strong><br>${s.e}`};}};}
+
+function gen_corpStrat(){
+const S=[{d:'a coffee roaster acquires a coffee bean farm',a:'Backward vertical integration',e:'Moving toward SUPPLIERS = backward integration.'},{d:'a clothing manufacturer opens its own retail stores',a:'Forward vertical integration',e:'Moving toward CUSTOMERS = forward integration.'},{d:'a smartphone maker enters the smartwatch market using its existing tech',a:'Related diversification',e:'New industry sharing tech/customers = related diversification.'},{d:'a steel company buys a fast-food chain',a:'Unrelated diversification',e:'No connection to core business = unrelated diversification.'},{d:'a law firm reinvests all profits to grow within legal services',a:'Concentration on a single industry',e:'Staying in ONE industry = concentration.'},{d:'a brewery buys a chain of bars to sell its beer exclusively',a:'Forward vertical integration',e:'Brewery owning bars = moving downstream = forward integration.'},{d:'an electronics company starts making its own microchips',a:'Backward vertical integration',e:'Making your own components = backward integration.'},{d:'a car company enters electric scooters using its battery tech',a:'Related diversification',e:'New product sharing core technology = related diversification.'}];
+const s=pick(S);const co=randCo();
+const opts=['Concentration on a single industry','Backward vertical integration','Forward vertical integration','Related diversification','Unrelated diversification'];
+const so=shuffle(opts),ci=so.indexOf(s.a);
+currentWalkthrough=[{label:'What\'s happening?',text:co+': '+s.d},{label:'Key question',text:'Staying in same industry, moving along supply chain, or entering a new industry?'},{label:'Answer',result:s.a,note:s.e}];
+renderMC(`<strong>Corporate-Level Strategy</strong>`,so,ci,s.e,`<strong>${co}</strong>: ${s.d}.<br><br>What corporate-level strategy is this?`);}
+
+// ═══ STRUCTURE ═══
+function genStruct(){let g=fsrsPick([gen_orgStruct,gen_central]);session.currentGenerator=g.name;g();}
+function gen_orgStruct(){
+const S=[{d:'has separate Marketing, Finance, HR, and Operations departments. Everyone in marketing reports to the VP of Marketing.',a:'Functional',e:'Grouped by function = functional.'},{d:'has "North America," "Europe," and "Asia" divisions, each with its own marketing, sales, and HR teams.',a:'Divisional',e:'Grouped by region with own functions = divisional.'},{d:'has engineers who report to both the Engineering VP and their project managers.',a:'Matrix',e:'Two bosses (functional + project) = matrix.'},{d:'organizes all developers in one dept, all designers in another, all sales in a third.',a:'Functional',e:'Specialists grouped by function = functional.'},{d:'assigns team members to cross-functional project teams while they still belong to home departments. A designer answers to both the Design Director and Product Manager.',a:'Matrix',e:'Dual reporting = matrix.'},{d:'has a "Consumer Products" division and "Business Solutions" division, each with full departments.',a:'Divisional',e:'Grouped by product line = divisional.'}];
+const s=pick(S),co=randCo(),opts=shuffle(['Functional','Divisional','Matrix']),ci=opts.indexOf(s.a);
+currentWalkthrough=[{label:'Key signal',text:s.a==='Functional'?'Grouped by job function':s.a==='Divisional'?'Grouped by product/region with own departments':'Two bosses / dual reporting'},{label:'Answer',result:s.a,note:s.e}];
+renderMC(`<strong>Organizational Structure</strong>`,opts.map(o=>o+' structure'),ci,s.e,`<strong>${co}</strong> ${s.d}<br><br>What structure?`);}
+
+function gen_central(){
+const S=[{d:'All pricing must be approved by the CEO. Managers cannot change prices without HQ approval.',a:'Centralized',e:'All decisions at the top = centralized.'},{d:'Regional managers set their own budgets, hire employees, and adapt products without consulting HQ.',a:'Decentralized',e:'Local managers decide independently = decentralized.'},{d:'Every franchise follows the exact same procedures, recipes, and layout — no exceptions.',a:'Centralized',e:'Uniform procedures from above = centralized.'},{d:'Engineering teams choose their own tools, set their own schedules, and decide features without management approval.',a:'Decentralized',e:'Teams making autonomous decisions = decentralized.'},{d:'All offices worldwide must use the same HR policies and approval chains.',a:'Centralized',e:'Standardized policies from HQ = centralized.'},{d:'Branch managers can approve loans and create local marketing campaigns based on community needs.',a:'Decentralized',e:'Branch-level decision authority = decentralized.'}];
+const s=pick(S),co=randCo(),opts=shuffle(['Centralized','Decentralized']),ci=opts.indexOf(s.a);
+currentWalkthrough=[{label:'Key question',text:'Who decides — top leadership or local managers?'},{label:'Answer',result:s.a,note:s.e}];
+renderMC(`<strong>Centralized vs Decentralized</strong>`,opts,ci,s.e,`<strong>${co}</strong>: ${s.d}`);}
+
+// ═══ CONTROL ═══
+function genCtrl(){session.currentGenerator='controlSort';gen_ctrlSort();}
+function gen_ctrlSort(){
+const P={Output:[{t:'Setting quarterly sales target of $2M per region',e:'Measurable target = output.'},{t:'Evaluating divisions on ROI',e:'ROI ratio = output. Ratios are best for output control.'},{t:'Creating operating budgets departments must meet',e:'Budget targets = output.'},{t:'Tracking customer satisfaction scores vs targets',e:'Satisfaction scores = measurable outcome = output.'},{t:'Comparing profit margins to projections quarterly',e:'Profit comparison = output.'},{t:'Measuring market share growth against 5% goal',e:'Market share goal = output.'}],
+Behavioral:[{t:'A manager walks the floor observing and correcting technique',e:'Direct observation = supervision = behavioral.'},{t:'Requiring reps to follow a 7-step call script',e:'Mandated script = SOP = behavioral.'},{t:'Manager and employee jointly set goals, then evaluate against them',e:'Joint goal-setting = MBO = behavioral.'},{t:'All employees must complete a safety checklist before operating machinery',e:'Mandatory checklist = SOP = behavioral.'},{t:'Requiring daily activity time sheets',e:'Activity tracking = behavioral.'},{t:'Quality inspector checks every product with detailed protocol',e:'Inspection process = behavioral.'}],
+Clan:[{t:'Hiring only people whose values align with the company mission',e:'Cultural fit hiring = clan.'},{t:'3-week immersive onboarding teaching company culture and values',e:'Cultural onboarding = clan.'},{t:'Teams celebrate wins weekly and reinforce "how we do things here"',e:'Rituals and shared norms = clan.'},{t:'Employees voluntarily stay late to help a struggling colleague — "that\'s our culture"',e:'Self-motivated helping from values = clan.'},{t:'Mission statement prominently displayed and discussed in meetings',e:'Mission reinforcement = clan.'},{t:'Senior employees mentor newcomers on unwritten norms',e:'Cultural mentoring = clan.'}]};
+const items=[];for(let t of['Output','Behavioral','Clan'])shuffle(P[t]).slice(0,2).forEach(p=>items.push({text:p.t,answer:t,explain:p.e}));
+const sh=shuffle(items);
+currentWalkthrough=sh.map((it,i)=>({label:'Action '+(i+1),text:`"${it.text}"`,math:'Results (output)? Process (behavioral)? Culture (clan)?',result:'→ '+it.answer,note:it.explain}));
+renderClassify(`<strong>Control Systems</strong> — Classify each action`,sh,['Output','Behavioral','Clan'],`Classify as <strong>Output</strong> (results), <strong>Behavioral</strong> (process), or <strong>Clan</strong> (culture).<br><em>Ratios are best for output control — objective, quantifiable, comparable.</em>`);}
+
+// ═══ CHANGE ═══
+function genChg(){let g=fsrsPick([gen_chgProc,gen_tdbu]);session.currentGenerator=g.name;g();}
+function gen_chgProc(){
+const co=randCo();
+const S=[[{t:co+'\'s managers notice complaints tripled and market share declining',s:'1. Assess the need',e:'Recognizing a problem = assess.'},{t:'Leadership determines customer service training and CRM need overhaul',s:'2. Decide what to change',e:'Identifying targets = decide.'},{t:'Company rolls out new training and CRM, unfreezing old habits',s:'3. Implement',e:'Making the change = implement.'},{t:'Six months later, managers compare new satisfaction scores to baseline',s:'4. Evaluate',e:'Measuring results = evaluate.'}],[{t:co+'\'s leadership sees a competitor launched an innovative product threatening their position',s:'1. Assess the need',e:'External threat = assess need.'},{t:'Innovation team identifies product dev process and structure as bottlenecks',s:'2. Decide what to change',e:'Pinpointing targets = decide.'},{t:'Management reorganizes into agile cross-functional teams with training',s:'3. Implement',e:'Structural change = implement.'},{t:'After one quarter, leadership reviews time-to-market metrics vs benchmarks',s:'4. Evaluate',e:'Comparing metrics = evaluate.'}]];
+const ev=pick(S),sh=shuffle(ev.map(x=>({text:x.t,answer:x.s,explain:x.e}))),steps=['1. Assess the need','2. Decide what to change','3. Implement','4. Evaluate'];
+currentWalkthrough=ev.map(e=>({label:e.s,text:e.t,note:e.e}));
+renderClassify(`<strong>Change Process</strong> — Match each event to its step`,sh,steps,`<strong>${co}</strong> is changing. Match each event to the correct step.`);}
+
+function gen_tdbu(){
+const S=[{d:'The CEO announces a complete restructuring. Department heads are told to implement by next month.',a:'Top-down',e:'CEO decides, everyone follows = top-down.'},{d:'Frontline service reps identify a billing issue and propose a new process to management.',a:'Bottom-up',e:'Ideas from frontline moving up = bottom-up.'},{d:'Board mandates 15% cost cuts. VPs must find ways to cut.',a:'Top-down',e:'Board mandate flowing down = top-down.'},{d:'Factory workers form improvement teams and present efficiency proposals to management.',a:'Bottom-up',e:'Workers proposing solutions = bottom-up.'},{d:'Senior management hires consultants to redesign the org, then presents it to employees.',a:'Top-down',e:'Management-driven, presented to employees = top-down.'},{d:'Teams experiment with new workflows; successful practices spread company-wide organically.',a:'Bottom-up',e:'Grassroots experimentation = bottom-up.'}];
+const s=pick(S),co=randCo(),opts=shuffle(['Top-down','Bottom-up']),ci=opts.indexOf(s.a);
+currentWalkthrough=[{label:'Key question',text:'Who initiated — leadership or frontline?'},{label:'Answer',result:s.a,note:s.e}];
+renderMC(`<strong>Top-Down vs Bottom-Up</strong>`,opts,ci,s.e,`<strong>${co}</strong>: ${s.d}`);}
+
+// ═══ MOTIVATION ═══
+function genMotiv(){let g=fsrsPick([gen_motivSort,gen_equity,gen_expect,gen_maslow]);session.currentGenerator=g.name;g();}
+
+function gen_motivSort(){
+const P={Extrinsic:[{t:'Works weekends because overtime pays time-and-a-half',e:'Overtime PAY = external reward = extrinsic.'},{t:'Studies hard to earn an A and keep scholarship',e:'Grade + scholarship = external rewards = extrinsic.'},{t:'Pushes to hit quota because the bonus covers car payment',e:'Bonus = extrinsic.'},{t:'Avoids long breaks to avoid getting written up',e:'Avoiding punishment = extrinsic.'},{t:'Works hard hoping for promotion to VP',e:'Promotion = external reward = extrinsic.'}],
+Intrinsic:[{t:'Stays up late debugging because solving puzzles is deeply satisfying',e:'Satisfaction from the work ITSELF = intrinsic.'},{t:'Paints on weekends purely for joy and self-expression',e:'Joy from doing the activity = intrinsic.'},{t:'Conducts research driven by genuine curiosity',e:'Curiosity = intrinsic.'},{t:'Takes on a challenge to grow and develop new skills',e:'Personal growth = intrinsic.'},{t:'Experiments with recipes because cooking is creatively fulfilling',e:'Creative fulfillment = intrinsic.'}],
+Prosocial:[{t:'Works in underserved community to improve people\'s health',e:'Helping others\' health = prosocial.'},{t:'Stays after school unpaid to tutor struggling students',e:'Helping students = prosocial.'},{t:'Volunteers to mentor interns because mentorship helped them',e:'Giving back to others = prosocial.'},{t:'Loves firefighting because they save lives and protect community',e:'Protecting others = prosocial.'},{t:'Takes lower-paying job because it has more direct impact on families',e:'Choosing impact on others over pay = prosocial.'}]};
+const items=[];for(let t of['Extrinsic','Intrinsic','Prosocial'])shuffle(P[t]).slice(0,2).forEach(p=>items.push({text:p.t,answer:t,explain:p.e}));
+const sh=shuffle(items);
+currentWalkthrough=sh.map((it,i)=>({label:'Scenario '+(i+1),text:`"${it.text}"`,math:'External reward? Work itself? Helping others?',result:'→ '+it.answer,note:it.explain}));
+renderClassify(`<strong>Motivation Types</strong> — Classify each person's motivation`,sh,['Extrinsic','Intrinsic','Prosocial'],`Is the driver an <strong>external reward</strong> (extrinsic), the <strong>work itself</strong> (intrinsic), or <strong>helping others</strong> (prosocial)?`);}
+
+function gen_equity(){
+const n1=pick(['Alex','Jordan','Sam','Morgan','Riley']),n2=pick(['Blake','Quinn','Drew','Sage','Reese']);
+const job=pick(['analyst','developer','coordinator','specialist']);
+const type=pick(['underpayment','overpayment','equity']);
+let h1,h2,p1,p2,ans,expl;
+if(type==='underpayment'){h1=R(50,60);h2=R(35,45);p1=R(55,65)*1000;p2=p1+R(5,15)*1000;ans='Underpayment inequity';expl=`${n1} works MORE (${h1}hrs) but earns LESS ($${p1.toLocaleString()}) than ${n2} (${h2}hrs, $${p2.toLocaleString()}). Ratio is worse → feels underpaid → may reduce effort, ask for raise, or quit.`;}
+else if(type==='overpayment'){h1=R(30,40);h2=R(50,60);p1=R(70,85)*1000;p2=R(55,65)*1000;ans='Overpayment inequity';expl=`${n1} works LESS (${h1}hrs) but earns MORE ($${p1.toLocaleString()}) than ${n2} (${h2}hrs, $${p2.toLocaleString()}). Ratio is better → may feel guilty → work harder.`;}
+else{h1=R(40,50);h2=h1+R(-2,2);p1=R(60,75)*1000;p2=p1+R(-2,2)*1000;ans='Equity (fair)';expl=`Both work similar hours and earn similar pay. Ratios roughly equal → ${n1} perceives fairness.`;}
+currentWalkthrough=[{label:'Inputs',text:`${n1}: ${h1}hrs/wk. ${n2}: ${h2}hrs/wk.`,result:h1>h2?n1+' has MORE input':h1<h2?'LESS input':'Similar'},{label:'Outcomes',text:`${n1}: $${p1.toLocaleString()}. ${n2}: $${p2.toLocaleString()}.`,result:p1<p2?n1+' has LESS outcome':p1>p2?'MORE outcome':'Similar'},{label:'Verdict',result:ans,note:expl}];
+const opts=shuffle(['Underpayment inequity','Overpayment inequity','Equity (fair)']),ci=opts.indexOf(ans);
+renderMC(`<strong>Equity Theory</strong> — How does ${n1} feel?`,opts,ci,expl,`<strong>${n1}</strong> and <strong>${n2}</strong> are both ${job}s.<br><br>${n1}: ${h1} hrs/wk, $${p1.toLocaleString()}/yr<br>${n2}: ${h2} hrs/wk, $${p2.toLocaleString()}/yr<br><br>${n1} compares to ${n2}. What do they perceive?`);}
+
+function gen_expect(){
+const S=[{d:'has skills to perform well, but company promotes by seniority not performance. Would love the promotion.',low:'Instrumentality',e:'CAN perform (high E), WANTS reward (high V), but performance won\'t lead to promotion (low I). Effort-reward link is broken.'},{d:'is assigned a complex project far beyond their skill level. Reward is a bonus they desperately want.',low:'Expectancy',e:'WANTS reward (high V), performance→reward (high I), but can\'t perform (low E). Confidence is the bottleneck.'},{d:'is a top performer told they\'ll get extra vacation, but they\'re a workaholic who never takes time off.',low:'Valence',e:'CAN perform (high E), WOULD get rewarded (high I), but doesn\'t WANT vacation (low V). If any factor = 0, motivation = 0.'},{d:'knows they can do well, company consistently rewards top performers with bonuses they want.',low:'None — all high',e:'High E, high I, high V → strong motivation. M = E × I × V, nothing is zero.'},{d:'lacks confidence to pass a certification exam. Passing guarantees a promotion they want.',low:'Expectancy',e:'Wants promotion (high V), it\'s tied to passing (high I), but doubts ability (low E).'},{d:'can sell well, company pays generous commissions, but they\'re financially comfortable and don\'t care about more money.',low:'Valence',e:'Can perform (high E), rewarded for performance (high I), but money doesn\'t matter (low V).'}];
+const s=pick(S),co=randCo(),opts=shuffle(['Expectancy','Instrumentality','Valence','None — all high']),ci=opts.indexOf(s.low);
+currentWalkthrough=[{label:'E: Can they perform?',result:s.low==='Expectancy'?'LOW ← problem':'HIGH'},{label:'I: Will performance→reward?',result:s.low==='Instrumentality'?'LOW ← problem':'HIGH'},{label:'V: Do they want the reward?',result:s.low==='Valence'?'LOW ← problem':'HIGH'},{label:'Conclusion',result:s.low==='None — all high'?'All high → motivated!':'Low '+s.low+' → weak motivation',note:s.e}];
+renderMC(`<strong>Expectancy Theory</strong> — Which component is LOW?`,opts,ci,s.e,`At <strong>${co}</strong>, an employee ${s.d}<br><br>Which of E × I × V is the problem?`);}
+
+function gen_maslow(){
+const P={Physiological:[{t:'Free cafeteria meals for all employees',e:'Food = physiological (L1).'},{t:'Employee worried about affording rent',e:'Shelter = physiological (L1).'},{t:'Office maintains comfortable temperature and clean water',e:'Basic comfort = physiological.'}],
+Safety:[{t:'Employees worried about upcoming layoffs',e:'Job security = safety (L2).'},{t:'Company offers health insurance and retirement plan',e:'Health/retirement = safety (L2).'},{t:'Better lighting and security cameras in parking garage',e:'Physical safety = safety (L2).'}],
+Belongingness:[{t:'Monthly team outings and cross-department friendships encouraged',e:'Social connection = belongingness (L3).'},{t:'New employee feels lonely, hasn\'t connected with coworkers',e:'Unmet social need = belongingness (L3).'},{t:'Weekly bonding lunches and birthday celebrations',e:'Team bonding = belongingness (L3).'}],
+Esteem:[{t:'"Employee of Month" awards and public recognition at meetings',e:'Public recognition = esteem (L4).'},{t:'Employee wants fancier title to feel respected by peers',e:'Status/respect = esteem (L4).'},{t:'Top performers\' names published in newsletter',e:'Achievement recognition = esteem (L4).'}],
+'Self-actualization':[{t:'20% time for passion projects and creative ideas',e:'Creative pursuit = self-actualization (L5).'},{t:'Senior employee seeks role to develop entirely new skills',e:'Growth beyond current abilities = self-actualization (L5).'},{t:'Turns down higher pay to stay where they make their greatest contribution',e:'Pursuing full potential = self-actualization (L5).'}]};
+const levels=['Physiological','Safety','Belongingness','Esteem','Self-actualization'];
+const items=[];for(let lv of levels){const p=pick(P[lv]);items.push({text:p.t,answer:lv,explain:p.e});}
+const sh=shuffle(items);
+currentWalkthrough=sh.map((it,i)=>({label:'Item '+(i+1),text:`"${it.text}"`,math:'Survival? Security? Social? Respect? Full potential?',result:'→ '+it.answer+' (L'+(levels.indexOf(it.answer)+1)+')',note:it.explain}));
+renderClassify(`<strong>Maslow's Hierarchy</strong> — Place each at the correct level`,sh,levels,`Classify each scenario:<br><em>Physiological → Safety → Belongingness → Esteem → Self-actualization</em>`);}
+
+// POMODORO
+const PW=25*60,PB=5*60,PL=15*60;let pomo={running:false,seconds:PW,phase:'work',round:0,iid:null};
+function syncPomo(){const m=Math.floor(pomo.seconds/60),s=pomo.seconds%60,ts=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'),ps=pomo.phase==='work'?'Focus time':pomo.phase==='break'?'Short break':'Long break',tc=pomo.phase==='work'?'pomo-time work':pomo.seconds===0?'pomo-time done':'pomo-time break-mode',bt=pomo.running?'Pause':pomo.seconds===0?'Next':'Start';['Dash','Game'].forEach(l=>{const t=document.getElementById('pomoTime'+l),p=document.getElementById('pomoPhase'+l),r=document.getElementById('pomoRounds'+l),b=document.getElementById('pomoBtn'+l);if(t){t.textContent=ts;t.className=tc;}if(p)p.textContent=ps;if(r)r.textContent=pomo.round+'/4';if(b){b.textContent=bt;b.className=pomo.running?'pomo-btn active':'pomo-btn';}});}
+function togglePomo(){if(pomo.seconds===0){if(pomo.phase==='work'){pomo.round++;pomo.phase=pomo.round%4===0?'long':'break';pomo.seconds=pomo.phase==='long'?PL:PB;}else{pomo.phase='work';pomo.seconds=PW;}syncPomo();return;}if(pomo.running){clearInterval(pomo.iid);pomo.running=false;}else{pomo.running=true;pomo.iid=setInterval(()=>{if(pomo.seconds>0){pomo.seconds--;syncPomo();if(pomo.seconds===0){clearInterval(pomo.iid);pomo.running=false;syncPomo();try{const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.value=.3;o.start();o.stop(a.currentTime+.15);setTimeout(()=>{const o2=a.createOscillator(),g2=a.createGain();o2.connect(g2);g2.connect(a.destination);o2.frequency.value=1100;g2.gain.value=.3;o2.start();o2.stop(a.currentTime+.2);},200);}catch(e){}}}},1000);}syncPomo();}
+
+updateDashboard();updKH();syncPomo();renderExams();
+</script>
+</body>
+</html>
